@@ -1,0 +1,25 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+&spi1 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi1_pins>;
+
+	ti,spi-num-cs = <1>;
+//	ti,spi-num-cs = <2>;
+};
+
+&am33xx_pinmux {
+	spi1_pins: spi1 {
+		pinctrl-single,pins = <
+			PIN_IO_PULLUP(  P9_31, 3 )  // clk
+			PIN_IN_PULLUP(  P9_29, 3 )  // data in
+			PIN_OUT_PULLUP( P9_30, 3 )  // data out
+			PIN_OUT_PULLUP( P9_28, 3 )  // cs 0
+//			PIN_OUT_PULLUP( P9_42a,2 )  // cs 1
+//			PIN_OUT_NOPULL( P9_42b,7 )  // (disable shared pin)
+		>;
+	};
+};

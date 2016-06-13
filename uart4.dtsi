@@ -1,0 +1,22 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+// pinmux for module (uncomment flow control if you need it)
+&pinctrl {
+	uart4_pins: uart4 {
+		pinctrl-single,pins = <
+			PIN_OUT_PULLUP( P9_13, 6 )  // txd
+			PIN_IN_PULLUP(  P9_11, 6 )  // rxd
+		//	PIN_OUT_PULLUP( P8_33, 6 )  // rts
+		//	PIN_IN_PULLUP(  P8_35, 6 )  // cts
+		>;
+	};
+};
+
+// configure and enable module
+&uart4 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart4_pins>;
+};

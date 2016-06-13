@@ -1,0 +1,25 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+// make sure subsystem is enabled
+&epwmss1 {
+        status = "okay";
+};
+
+// pinmux for module
+&am33xx_pinmux {
+        pwm1_pins: pwm1 {
+                pinctrl-single,pins = <
+                        PIN_OUT_NOPULL( P9_14, 6 )  // out A
+                        PIN_OUT_NOPULL( P9_16, 6 )  // out B
+                >;
+        };
+};
+
+// configure and enable module
+&ehrpwm1 {
+        status = "okay";
+
+        pinctrl-names = "default";
+        pinctrl-0 = <&pwm1_pins>;
+};
