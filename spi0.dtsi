@@ -1,0 +1,22 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins>;
+
+	ti,spi-num-cs = <1>;
+
+	status = "okay";
+};
+
+&pinctrl {
+	spi0_pins: spi0 {
+		pinctrl-single,pins = <
+			PIN_IO_PULLUP(  P9_22, 0 )  // clk
+			PIN_IN_PULLUP(  P9_21, 0 )  // data in
+			PIN_OUT_PULLUP( P9_18, 0 )  // data out
+			PIN_OUT_PULLUP( P9_17, 0 )  // cs 0
+		>;
+	};
+};
