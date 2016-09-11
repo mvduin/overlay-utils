@@ -1,0 +1,18 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+&dcan1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&can1_pins>;
+
+	status = "okay";
+};
+
+&pinctrl {
+	can1_pins: can1 {
+		pinctrl-single,pins = <
+			PIN_IN_PULLUP(  P9_24, 2 )  // rx
+			PIN_OUT_PULLUP( P9_26, 2 )  // tx
+		>;
+	};
+};
