@@ -1,0 +1,122 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+#include "irq.h"
+
+// note: metadata is ignored if you use configfs to load overlays
+
+compatible = "ti,beaglebone", "ti,beaglebone-black";
+part-number = "TT3201-001";
+version = "01";
+
+exclusive-use =
+	// pins required
+	"P9.27",	// spi irq: gpio3_19
+	"P9.25",	// spi irq: gpio3_21
+	"P9.31",	// spi: spi1_sclk
+	"P9.29",	// spi: spi1_d0
+	"P9.30",	// spi: spi1_d1
+	"P9.28",	// spi: spi1_cs0
+	"P9.42",	// spi: spi1_cs1
+	"P9.26",	// dcan1: dcan1_tx
+	"P9.24",	// dcan1: dcan1_rx
+	// SoC resources required
+	"gpio3_19",
+	"gpio3_21",
+	"spi1",
+	"dcan1";
+
+
+// can interfaces 1 and 2, using separate controllers on spi
+
+/ {
+	tt3201_clk: tt3201_clk {
+		 #clock-cells = <0>;
+		 compatible = "fixed-clock";
+		 clock-frequency = <16000000>;
+	};
+};
+
+&spi1 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi1_pins>;
+
+	ti,spi-num-cs = <2>;
+
+	can@0 {
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+
+		compatible = "microchip,mcp2515";
+		clocks = <&tt3201_clk>;
+		interrupt-parent = <&gpio3>;
+		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&spi1_can0_pins>;
+
+		ifname = "can1";
+	};
+
+	can@1 {
+		reg = <1>;
+		spi-max-frequency = <10000000>;
+
+		compatible = "microchip,mcp2515";
+		clocks = <&tt3201_clk>;
+		interrupt-parent = <&gpio3>;
+		interrupts = <21 IRQ_TYPE_EDGE_FALLING>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&spi1_can1_pins>;
+
+		ifname = "can2";
+	};
+};
+
+&am33xx_pinmux {
+	spi1_pins: spi1 {
+		pinctrl-single,pins = <
+			PIN_IO_PULLUP(  P9_31, 3 )  // clk
+			PIN_IN_PULLUP(  P9_29, 3 )  // data in
+			PIN_OUT_PULLUP( P9_30, 3 )  // data out
+			PIN_OUT_PULLUP( P9_28, 3 )  // cs 0
+			PIN_OUT_PULLUP( P9_42a,2 )  // cs 1
+			PIN_OUT_NOPULL( P9_42b,7 )  // (disable shared pin)
+		>;
+	};
+
+	spi1_can0_pins: spi1_can0 {
+		pinctrl-single,pins = <
+			PIN_GPIN_PULLUP( P9_27 )  // irq
+		>;
+	};
+
+	spi1_can1_pins: spi1_can1 {
+		pinctrl-single,pins = <
+			PIN_GPIN_PULLUP( P9_25 )  // irq
+		>;
+	};
+};
+
+
+// can interface 3
+
+&dcan1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&can1_pins>;
+
+	status = "okay";
+
+	ifname = "can3";
+};
+
+&am33xx_pinmux {
+	can1_pins: can1 {
+		pinctrl-single,pins = <
+			PIN_IN_PULLUP(  P9_24, 2 )  // rx
+			PIN_OUT_PULLUP( P9_26, 2 )  // tx
+		>;
+	};
+};
