@@ -12,7 +12,7 @@
 	status = "okay";
 };
 
-&pinctrl {
+&am33xx_pinmux {
 	spi0_pins: spi0 {
 		pinctrl-single,pins = <
 			PIN_IO_PULLUP(  P9_22, 0 )  // clk

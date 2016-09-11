@@ -8,7 +8,7 @@
 	status = "okay";
 };
 
-&pinctrl {
+&am33xx_pinmux {
 	can1_pins: can1 {
 		pinctrl-single,pins = <
 			PIN_IN_PULLUP(  P9_24, 2 )  // rx

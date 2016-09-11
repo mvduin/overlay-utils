@@ -2,7 +2,7 @@
 #include "bone/pins.h"
 
 // pinmux for module (uncomment flow control if you need it)
-&pinctrl {
+&am33xx_pinmux {
 	uart4_pins: uart4 {
 		pinctrl-single,pins = <
 			PIN_OUT_PULLUP( P9_13, 6 )  // txd
