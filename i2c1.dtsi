@@ -1,0 +1,24 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+// setup pinmux and enable controller
+
+&i2c1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c1_pins>;
+
+	status = "okay";
+};
+
+&am33xx_pinmux {
+	i2c1_pins: i2c1 {
+		pinctrl-single,pins = <
+			PIN_IO_PULLUP( P9_26, 3 )  // sda
+			PIN_IO_PULLUP( P9_24, 3 )  // scl
+			// an alternative ioset is:
+			// PIN_IO_PULLUP( P9_18, 2 )  // sda
+			// PIN_IO_PULLUP( P9_17, 2 )  // scl
+			// but this overlaps with spi0 hence isn't recommended
+		>;
+	};
+};
