@@ -1,0 +1,29 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+// Example for a DHT11/DHT22 humidity sensor connected to P8.11 (gpio 1.13).
+
+// If you want to be able to load it using bone_capemgr instead of configfs
+// you'll need to add some metadata, see TT3201-001-01.dtsi for example.
+
+/ {
+	humidity_sensor {
+		compatible = "dht11";
+		gpios = <&gpio1 13 0>;
+
+		// Since gpio is the default mode it's not *strictly* required
+		// to do pinmux, but it's recommended anyhow to ensure the pins
+		// are properly claimed and configured.
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&dht11_pin>;
+	};
+};
+
+&am33xx_pinmux {
+	dht11_pin: humidity_sensor {
+		pinctrl-single,pins = <
+			PIN_IO_PULLUP( P8_11, 7 )  // gpio 1.13
+		>;
+	};
+};
