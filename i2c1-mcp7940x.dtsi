@@ -1,0 +1,12 @@
+// example for adding an i2c device
+//
+// (note: make sure the i2c bus itself is also setup and enabled!
+// see i2c1.dtsi for example)
+
+&i2c1 {
+	// MCP7940M real-time clock (drivers/rtc/rtc-ds1307.c)
+	rtc@6f {
+		reg = <0x6f>;
+		compatible = "mcp7940x";
+	};
+};
