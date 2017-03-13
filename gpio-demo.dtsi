@@ -1,0 +1,92 @@
+#include "gpio.h"
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+// Requires a sufficiently recent kernel by rcn (4.9-bone or 4.9-ti).
+//
+// A udev rule along these lines is recommended:
+//
+//	SUBSYSTEM=="subsystem", KERNEL=="gpio", ACTION=="add", \
+//		RUN+="/bin/mkdir -p /dev/gpio"
+//
+//	SUBSYSTEM=="gpio", ACTION=="add", TEST=="value", ATTR{label}!="sysfs", \
+//		RUN+="/bin/chgrp -R users '/sys%p'", \
+//		RUN+="/bin/chmod -R g=u '/sys%p'", \
+//		RUN+="/bin/ln -sT '/sys/class/gpio/%k' /dev/gpio/%s{label}"
+//
+// (Adjust ownership/permissions to taste.)
+
+/ {
+	// If you want to use multiple overlays that do gpio configuration, be
+	// sure that each uses a different device tree node!
+	gpio-demo {
+		compatible = "gpio-of-helper";
+
+		// It is usually not *strictly* required to perform pinmux for
+		// GPIOs since this is typically their default, but it's good
+		// practice to do it anyway since:
+		// 1. it makes *sure* the pinmux is right
+		// 2. you can configure internal pull-up/down
+		// 3. it lets the kernel know the pins are in use
+		pinctrl-names = "default";
+		pinctrl-0 = <&gpio_demo_pins>;
+
+		// Note that gpio numbers for each pin can be found in the
+		// comments in include/bone/pins.h
+
+		// input only, active-low; connect button between pin and gnd.
+		// declaring the gpio as ACTIVE_LOW means the value reads as 1
+		// when the button is pressed.
+		button {
+			gpio = <&gpio2 2 ACTIVE_LOW>;  // P8.07
+			input;
+		};
+
+		// output only, active-low, initially high
+		reset-thing {
+			gpio = <&gpio2 3 ACTIVE_LOW>;  // P8.08
+			init-high;
+		};
+
+		// note: ACTIVE_LOW inverts the meaning of the value, but it
+		// does not invert the meaning of "init-low" / "init-high" !
+
+
+		// bidirectional, initially input
+		input-bidi {
+			gpio = <&gpio2 5 ACTIVE_HIGH>;  // P8.09
+			input;
+			dir-changeable;
+		};
+
+		// bidirectional, initially output, initially low
+		output-bidi {
+			gpio = <&gpio2 4 ACTIVE_HIGH>;  // P8.10
+			init-low;
+			dir-changeable;
+		};
+	};
+};
+
+// My recommendations for pinmux:
+//
+// * Don't declare gpios as output-only, it prevents you from reading back
+//   their status (due to limitations of the kernel sysfs interface).
+//
+// * Keep the pull up/down the same as reset default.  This varies per pin so
+//   you will need to check.  Optionally you can declare pins as NOPULL if they
+//   are output-only or if they are externally pulled/driven.  This saves a bit
+//   of power.  However it's not really a problem to leave the very weak pulls
+//   unnecessarily enabled, while it's very undesirable to disable them if they
+//   were needed!
+//
+&am33xx_pinmux {
+	gpio_demo_pins: gpio-demo {
+		pinctrl-single,pins = <
+			PIN_GPIO_PULLUP(  P8_07 )  // io 2.02  button
+			PIN_GPIO_PULLUP(  P8_08 )  // io 2.03  reset-thing
+			PIN_GPIO_PULLUP(  P8_09 )  // io 2.05  input-bidi
+			PIN_GPIO_PULLUP(  P8_10 )  // io 2.04  output-bidi
+		>;
+	};
+};
