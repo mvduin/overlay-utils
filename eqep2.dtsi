@@ -1,0 +1,35 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+&epwmss2 {
+	status = "okay";
+};
+
+&eqep2 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&eqep2_pins>;
+
+	count_mode = <0>;
+	//	0: quadrature decoding
+	//	1: A = pulse input, B = direction (0=down, 1=up)
+	//	2: A = pulse input, count up  (input B ignored)
+	//	3: A = pulse input, count down  (input B ignored)
+
+	invert_qa = <0>;  // invert A
+	invert_qb = <0>;  // invert B
+	invert_qi = <0>;  // invert index
+	invert_qs = <0>;  // invert strobe
+};
+
+&am33xx_pinmux {
+	eqep2_pins: eqep2 {
+		pinctrl-single,pins = <
+			PIN_IN_PULLDOWN( P8_12, 4 )	// A
+			PIN_IN_PULLDOWN( P8_11, 4 )	// B
+			PIN_IN_PULLDOWN( P8_16, 4 )	// index
+			PIN_IN_PULLDOWN( P8_15, 4 )	// strobe
+		>;
+	};
+};
