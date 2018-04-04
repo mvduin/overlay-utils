@@ -51,19 +51,23 @@ while( <> ) {
 		next;
 	}
 
-	if( /^(&\w+)\s*\{\s*\z/ ) {
+	my $oneliner;
+	if( /^(&\w+)\s*\{(?:((?:[^{}]+|\{(?-1)\})*+)\};)?\s*\z/ ) {
 		$_ = "target = <$1>";
+		$oneliner = $2;
 
-	} elsif( m!^(?|&\{($pathRE)\}|($pathRE))\s*\{\s*\z! ) {
+	} elsif( m!^(?|&\{($pathRE)\}|($pathRE))\s*\{(?:((?:[^{}]+|\{(?-1)\})*+)\};)?\s*\z! ) {
 		$_ = "target-path = \"$1\"";
+		$oneliner = $2;
 
 	} else {
 		fail "Parse error";
 	}
 
 	$_ = "/ { fragment\@$n { $_; __overlay__ {\n";
+	s/\n\z/$oneliner}; }; };\n/  if defined $oneliner;
 	++$n;
-	$inside = 1;
+	$inside = ! defined $oneliner;
 } continue {
 	print;
 }
