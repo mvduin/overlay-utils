@@ -1,0 +1,15 @@
+// Example for changing pinmux defaults for the pocketbeagle
+//
+// These defaults can still be overridden using config-pin,
+// see other examples for making pins fixed-function.
+
+#define CONFIG_PIN( pin, mode ) \
+	pin##_pinmux { pinctrl-0 = <&pin##_##mode##_pin>; }
+
+&ocp {
+	CONFIG_PIN( P2_09, uart );  // uart 1 txd
+	CONFIG_PIN( P2_11, uart );  // uart 1 rxd
+
+	CONFIG_PIN( P1_08, uart );  // uart 2 rxd
+	CONFIG_PIN( P1_10, uart );  // uart 2 txd
+};

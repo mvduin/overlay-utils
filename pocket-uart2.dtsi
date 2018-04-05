@@ -1,0 +1,21 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pocket.h"
+
+USES_PIN( P1_08 );  // uart 2 rxd
+USES_PIN( P1_10 );  // uart 2 txd
+
+&uart2 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart2_pins>;
+};
+
+&am33xx_pinmux {
+	uart2_pins: uart2 {
+		pinctrl-single,pins = <
+			PIN_OUT_NOPULL( P1_10, 1 )  // txd
+			PIN_IN_PULLUP(  P1_08, 1 )  // rxd
+		>;
+	};
+};
