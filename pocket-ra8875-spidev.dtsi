@@ -1,0 +1,90 @@
+#include "subarctic/pinctrl.h"
+#include "gpio.h"
+#include "bone/pocket.h"
+
+// RA8875 display driver connected via spi to PocketBeagle
+//
+// userspace version
+
+USES_PIN(P1_06);  // -> spi cs
+USES_PIN(P1_08);  // -> spi clk
+USES_PIN(P1_10);  // <- spi miso
+USES_PIN(P1_12);  // -> spi mosi
+USES_PIN(P2_02);  // -> reset
+USES_PIN(P2_04);  // <- wait
+USES_PIN(P2_06);  // <- irq
+
+&spi0 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins>;
+
+	ti,spi-num-cs = <1>;
+
+	ra8875@0 {
+		reg = <0>;
+
+		// max spi frequency is:
+		//	sys_clk/3 for write
+		//	sys_clk/6 for read
+		// sys_clk is min 1 MHz, typ 20-30 MHz, max 60 MHz
+		// sys_clk defaults to Fosc (crystal osc)
+		// Fosc is min 15 MHz, typ 20 MHz, max 30 MHz
+		//
+		// Set limit for best case (60 MHz / 3).  It's up to userspace
+		// to use a lower frequency when needed based on its config.
+		//
+		spi-max-frequency = <20000000>;
+
+		// SPI mode 3
+		spi-cpol;
+		spi-cpha;
+
+		// expose it to userspace
+		compatible = "spidev";
+	};
+};
+
+/ {
+	ra8875-gpio {
+		compatible = "gpio-of-helper";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&ra8875_pins>;
+
+		ra8875-reset {
+			gpio = <&gpio1 27 ACTIVE_LOW>;  // P2.02
+			init-low;
+		};
+
+		ra8875-wait {
+			gpio = <&gpio1 26 ACTIVE_LOW>;  // P2.04
+			input;
+		};
+
+		ra8875-irq {
+			gpio = <&gpio1 25 ACTIVE_LOW>;  // P2.06
+			input;
+		};
+	};
+};
+
+&am33xx_pinmux {
+	spi0_pins: spi0 {
+		pinctrl-single,pins = <
+			PIN_OUT_PULLUP( P1_06, 0 )  // cs 0
+			PIN_IO_PULLUP(  P1_08, 0 )  // clk
+			PIN_IN_PULLUP(  P1_10, 0 )  // d0 miso
+			PIN_OUT_PULLUP( P1_12, 0 )  // d1 mosi
+		>;
+	};
+
+	ra8875_pins: ra8875 {
+		pinctrl-single,pins = <
+			PIN_GPIO_PULLUP( P2_02 )  // io 1.27 reset
+			PIN_GPIN_PULLUP( P2_04 )  // io 1.26 wait
+			PIN_GPIN_PULLUP( P2_06 )  // io 1.25 irq
+		>;
+	};
+};
