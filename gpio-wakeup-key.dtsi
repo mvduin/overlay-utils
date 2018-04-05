@@ -1,0 +1,30 @@
+#include "gpio.h"
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+// from linux/input-event-codes.h
+#define KEY_WAKEUP		143
+
+/ {
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&gpio_keys_pins>;
+
+		wakeup {
+			label = "Wakeup GPIO";
+			linux,code = <KEY_WAKEUP>;
+			gpios = <&gpio0 26 ACTIVE_HIGH>;
+			wakeup-source;
+		};
+	};
+};
+
+&am33xx_pinmux {
+	gpio_keys_pins: gpio-keys {
+		pinctrl-single,pins = <
+			PIN_GPIN_PULLDOWN( P8_14 )  // io 0.26  wakeup
+		>;
+	};
+};
