@@ -1,0 +1,59 @@
+#include "gpio.h"
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+// Hitachi HD44780-like lcd controller, using gpio-based kernel driver
+//
+// Although this example uses gpios, the particular pins used here match those
+// required for using the beaglebone's lcd interface controller, hence keep the
+// option open of using it in the future.
+
+/ {
+	lcd {
+		compatible = "hit,hd44780";
+
+		display-width-chars = <16>;
+		display-height-chars = <2>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&lcd_pins>;
+
+		data-gpios =
+#if USE_8BIT
+			<&gpio2  6 ACTIVE_HIGH>,  // P8.45
+			<&gpio2  7 ACTIVE_HIGH>,  // P8.46
+			<&gpio2  8 ACTIVE_HIGH>,  // P8.43
+			<&gpio2  9 ACTIVE_HIGH>,  // P8.44
+#endif
+			<&gpio2 10 ACTIVE_HIGH>,  // P8.41
+			<&gpio2 11 ACTIVE_HIGH>,  // P8.42
+			<&gpio2 12 ACTIVE_HIGH>,  // P8.39
+			<&gpio2 13 ACTIVE_HIGH>;  // P8.40
+		enable-gpios =
+			<&gpio2 25 ACTIVE_HIGH>;  // P8.30
+		rs-gpios =
+			<&gpio2 22 ACTIVE_HIGH>;  // P8.27
+		rw-gpios =
+			<&gpio2 23 ACTIVE_HIGH>;  // P8.29
+	};
+};
+
+&am33xx_pinmux {
+	lcd_pins: lcd {
+		pinctrl-single,pins = <
+#if USE_8BIT
+			PIN_GPIO_NOPULL(  P8_45 )  // io 2.06  d0
+			PIN_GPIO_NOPULL(  P8_46 )  // io 2.07  d1
+			PIN_GPIO_NOPULL(  P8_43 )  // io 2.08  d2
+			PIN_GPIO_NOPULL(  P8_44 )  // io 2.09  d3
+#endif
+			PIN_GPIO_NOPULL(  P8_41 )  // io 2.10  d4
+			PIN_GPIO_NOPULL(  P8_42 )  // io 2.11  d5
+			PIN_GPIO_NOPULL(  P8_39 )  // io 2.12  d6
+			PIN_GPIO_NOPULL(  P8_40 )  // io 2.13  d7
+			PIN_GPOUT_NOPULL( P8_30 )  // io 2.25  en
+			PIN_GPOUT_NOPULL( P8_27 )  // io 2.22  rs
+			PIN_GPOUT_NOPULL( P8_29 )  // io 2.23  rw
+		>;
+	};
+};
