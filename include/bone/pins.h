@@ -1,4 +1,5 @@
 #pragma once
+#include "bone/common.h"
 
 #define LED0    21  // V15 / io 1.21
 #define LED1    22  // U15 / io 1.22

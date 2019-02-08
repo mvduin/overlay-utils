@@ -1,9 +1,5 @@
 #pragma once
-
-
-// macro to disable pinmux helper node (runtime pinmux):
-#define USES_PIN( pin ) &ocp { pin##_pinmux { status = "disabled"; }; }
-
+#include "bone/common.h"
 
 //      P1_01      //	5v in
 #define P1_03 141  // io 3.13	usb 1 drv vbus
