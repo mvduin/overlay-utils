@@ -2,6 +2,22 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+#define USE_8BIT 0
+
+USES_PIN( P8_27 );
+USES_PIN( P8_29 );
+USES_PIN( P8_30 );
+USES_PIN( P8_39 );
+USES_PIN( P8_40 );
+USES_PIN( P8_41 );
+USES_PIN( P8_42 );
+#if USE_8BIT
+USES_PIN( P8_43 );
+USES_PIN( P8_44 );
+USES_PIN( P8_45 );
+USES_PIN( P8_46 );
+#endif
+
 // Hitachi HD44780-like lcd controller, using gpio-based kernel driver
 //
 // Although this example uses gpios, the particular pins used here match those

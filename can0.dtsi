@@ -1,6 +1,9 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+USES_PIN( P9_19 );
+USES_PIN( P9_20 );
+
 &dcan0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&can0_pins>;

@@ -1,14 +1,35 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+// disable conflicting cape-universal nodes
+
+USES_PIN( P9_31 );  // clk
+USES_PIN( P9_29 );  // data in
+USES_PIN( P9_30 );  // data out
+USES_PIN( P9_28 );  // cs 0
+#if SPI1_DUAL_CS
+USES_PIN( P9_42 );  // cs 1
+USES_PIN( P9_92 );  // (disable shared pin)
+#endif
+
+&spi1 {
+	spi1channel@0 {  status = "disabled";  };
+	spi1channel@1 {  status = "disabled";  };
+};
+
+// setup pinmux and enable controller
+
 &spi1 {
 	status = "okay";
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi1_pins>;
 
+#if SPI1_DUAL_CS
+	ti,spi-num-cs = <2>;
+#else
 	ti,spi-num-cs = <1>;
-//	ti,spi-num-cs = <2>;
+#endif
 };
 
 &am33xx_pinmux {
@@ -18,8 +39,10 @@
 			PIN_IN_PULLUP(  P9_29, 3 )  // data in
 			PIN_OUT_PULLUP( P9_30, 3 )  // data out
 			PIN_OUT_PULLUP( P9_28, 3 )  // cs 0
-//			PIN_OUT_PULLUP( P9_42a,2 )  // cs 1
-//			PIN_OUT_NOPULL( P9_42b,7 )  // (disable shared pin)
+#if SPI1_DUAL_CS
+			PIN_OUT_PULLUP( P9_42a,2 )  // cs 1
+			PIN_OUT_NOPULL( P9_42b,7 )  // (disable shared pin)
+#endif
 		>;
 	};
 };

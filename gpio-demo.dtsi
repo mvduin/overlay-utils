@@ -2,6 +2,11 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+USES_PIN( P8_07 );
+USES_PIN( P8_08 );
+USES_PIN( P8_09 );
+USES_PIN( P8_10 );
+
 // Requires a sufficiently recent kernel by rcn (4.9-bone or 4.9-ti).
 //
 // A udev rule along these lines is recommended:
@@ -10,11 +15,7 @@
 //		RUN+="/bin/mkdir -p /dev/gpio"
 //
 //	SUBSYSTEM=="gpio", ACTION=="add", TEST=="value", ATTR{label}!="sysfs", \
-//		RUN+="/bin/chgrp -R gpio '/sys%p'", \
-//		RUN+="/bin/chmod -R g=u '/sys%p'", \
 //		RUN+="/bin/ln -sT '/sys/class/gpio/%k' /dev/gpio/%s{label}"
-//
-// (Adjust ownership/permissions to taste.)
 
 / {
 	// If you want to use multiple overlays that do gpio configuration, be

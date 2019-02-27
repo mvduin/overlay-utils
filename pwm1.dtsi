@@ -1,6 +1,9 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+USES_PIN( P9_14 );
+USES_PIN( P9_16 );
+
 // make sure subsystem is enabled
 &epwmss1 {
         status = "okay";

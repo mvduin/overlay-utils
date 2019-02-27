@@ -1,6 +1,19 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+// disable conflicting cape-universal nodes
+
+USES_PIN( P9_17 );  // cs 0
+USES_PIN( P9_18 );  // data out
+USES_PIN( P9_21 );  // data in
+USES_PIN( P9_22 );  // clk
+USES_PIN( P9_23 );  // cs 1
+
+&spi0 {
+	spi0channel@0 {  status = "disabled";  };
+	spi0channel@1 {  status = "disabled";  };
+};
+
 // setup pinmux and enable controller
 
 &spi0 {

@@ -1,6 +1,9 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+USES_PIN( P9_24 );
+USES_PIN( P9_26 );
+
 // setup pinmux and enable controller
 
 &i2c1 {

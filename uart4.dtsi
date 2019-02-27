@@ -1,6 +1,13 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+// disable conflicting cape-universal nodes
+
+USES_PIN( P9_13 );  // txd
+USES_PIN( P9_11 );  // rxd
+//USES_PIN( P8_33 );  // rts
+//USES_PIN( P8_35 );  // cts
+
 // pinmux for module (uncomment flow control if you need it)
 &am33xx_pinmux {
 	uart4_pins: uart4 {

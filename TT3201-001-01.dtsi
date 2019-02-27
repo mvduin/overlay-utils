@@ -2,7 +2,7 @@
 #include "bone/pins.h"
 #include "irq.h"
 
-// note: metadata is ignored if you use configfs to load overlays
+// note: this metadata is ignored
 
 compatible = "ti,beaglebone", "ti,beaglebone-black";
 part-number = "TT3201-001";
@@ -25,8 +25,17 @@ exclusive-use =
 	"spi1",
 	"dcan1";
 
+// disable conflicting cape-universal nodes
+
+USES_PIN( P9.24 );
+USES_PIN( P9.25 );
+USES_PIN( P9.26 );
+USES_PIN( P9.27 );
 
 // can interfaces 1 and 2, using separate controllers on spi
+
+#define SPI1_DUAL_CS 1
+#include "spi1.dtsi"
 
 / {
 	tt3201_clk: tt3201_clk {
@@ -37,13 +46,6 @@ exclusive-use =
 };
 
 &spi1 {
-	status = "okay";
-
-	pinctrl-names = "default";
-	pinctrl-0 = <&spi1_pins>;
-
-	ti,spi-num-cs = <2>;
-
 	can@0 {
 		reg = <0>;
 		spi-max-frequency = <10000000>;
@@ -76,17 +78,6 @@ exclusive-use =
 };
 
 &am33xx_pinmux {
-	spi1_pins: spi1 {
-		pinctrl-single,pins = <
-			PIN_IO_PULLUP(  P9_31, 3 )  // clk
-			PIN_IN_PULLUP(  P9_29, 3 )  // data in
-			PIN_OUT_PULLUP( P9_30, 3 )  // data out
-			PIN_OUT_PULLUP( P9_28, 3 )  // cs 0
-			PIN_OUT_PULLUP( P9_42a,2 )  // cs 1
-			PIN_OUT_NOPULL( P9_42b,7 )  // (disable shared pin)
-		>;
-	};
-
 	spi1_can0_pins: spi1_can0 {
 		pinctrl-single,pins = <
 			PIN_GPIN_PULLUP( P9_27 )  // irq

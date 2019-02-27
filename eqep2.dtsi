@@ -1,6 +1,11 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+USES_PIN( P8_12 );
+USES_PIN( P8_11 );
+USES_PIN( P8_16 );
+USES_PIN( P8_15 );
+
 &epwmss2 {
 	status = "okay";
 };

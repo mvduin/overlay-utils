@@ -6,7 +6,7 @@
 
 //-------- GP0 pin 6 -- eCAP 2 -------------------------------------------------
 
-&ocp {  P9_28_pinmux {  status = "disabled";  };  };
+USES_PIN( P9_28 );
 
 &ecap2 {
 	status = "okay";

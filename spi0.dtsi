@@ -1,12 +1,17 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
-// disable runtime config of pins (cape-universal)
+// disable conflicting cape-universal nodes
 
-USES_PIN( P9_17 );
-USES_PIN( P9_18 );
-USES_PIN( P9_21 );
-USES_PIN( P9_22 );
+USES_PIN( P9_17 );  // cs 0
+USES_PIN( P9_18 );  // data out
+USES_PIN( P9_21 );  // data in
+USES_PIN( P9_22 );  // clk
+
+&spi0 {
+	spi0channel@0 {  status = "disabled";  };
+	spi0channel@1 {  status = "disabled";  };
+};
 
 // setup pinmux and enable controller
 
@@ -33,10 +38,6 @@ USES_PIN( P9_22 );
 // declare connected device (example)
 
 &spi0 {
-	// disable child nodes declared by the universal overlay
-	spi0channel@0 {  status = "disabled";  };
-	spi0channel@1 {  status = "disabled";  };
-
 	// note: consider giving the node a descriptive name like flash@0 or
 	// whatever to make it easier to identify.  You can even use a tiny
 	// udev rule to then automatically make a symlink like /dev/spi/flash

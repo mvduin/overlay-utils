@@ -2,6 +2,8 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
+USES_PIN( P8_14 );
+
 // from linux/input-event-codes.h
 #define KEY_WAKEUP		143
 
