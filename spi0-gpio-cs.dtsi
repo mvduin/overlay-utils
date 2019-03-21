@@ -9,10 +9,11 @@ USES_PIN( P9_21 );  // data in
 USES_PIN( P9_22 );  // clk
 USES_PIN( P9_23 );  // cs 1
 
-&spi0 {
-	spi0channel@0 {  status = "disabled";  };
-	spi0channel@1 {  status = "disabled";  };
-};
+// XXX apparently this doesn't work
+//&spi0 {
+//	spi0channel@0 {  status = "disabled";  };
+//	spi0channel@1 {  status = "disabled";  };
+//};
 
 // setup pinmux and enable controller
 
@@ -44,7 +45,9 @@ USES_PIN( P9_23 );  // cs 1
 	// note: consider giving the nodes descriptive names like flash@0 or
 	// whatever to make them easier to identify.  You can even use a tiny
 	// udev rule to then automatically make a symlink like /dev/spi/flash
-	chip@0 {
+
+	// XXX for now, use same names as cape-universal for compatibility
+	spi0channel@0 {
 		reg = <0>;
 		compatible = "spidev";
 
@@ -56,7 +59,7 @@ USES_PIN( P9_23 );  // cs 1
 		spi-cpha;
 	};
 
-	chip@1 {
+	spi0channel@1 {
 		reg = <1>;
 		compatible = "spidev";
 

@@ -12,10 +12,11 @@ USES_PIN( P9_42 );  // cs 1
 USES_PIN( P9_92 );  // (disable shared pin)
 #endif
 
-&spi1 {
-	spi1channel@0 {  status = "disabled";  };
-	spi1channel@1 {  status = "disabled";  };
-};
+// XXX apparently this doesn't work
+//&spi1 {
+//	spi1channel@0 {  status = "disabled";  };
+//	spi1channel@1 {  status = "disabled";  };
+//};
 
 // setup pinmux and enable controller
 
@@ -25,11 +26,7 @@ USES_PIN( P9_92 );  // (disable shared pin)
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi1_pins>;
 
-#if SPI1_DUAL_CS
 	ti,spi-num-cs = <2>;
-#else
-	ti,spi-num-cs = <1>;
-#endif
 };
 
 &am33xx_pinmux {
