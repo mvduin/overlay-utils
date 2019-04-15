@@ -1,0 +1,14 @@
+// example for adding an i2c device
+//
+// note: &i2c2 is set up by default (on P9.19 + P9.20).
+
+&i2c2 {
+	// NXP PCF8523 Real Time Clock
+	rtc@68 {
+		reg = <0x68>;
+		compatible = "nxp,pcf8523";
+
+		// capacitve load of quartz crystal in fF:
+		quartz-load-femtofarads = <12500>;  // range 7000-12500
+	};
+};
