@@ -2,10 +2,7 @@
 #include "subarctic/pinctrl.h"
 #include "bone/pins.h"
 
-USES_PIN( P8_07 );
-USES_PIN( P8_08 );
-USES_PIN( P8_09 );
-USES_PIN( P8_10 );
+// XXX not compatible with cape-universal!
 
 // Requires a sufficiently recent kernel by rcn (4.9-bone or 4.9-ti).
 //
