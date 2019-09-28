@@ -43,7 +43,7 @@ USES_PIN( P9_15 );  // dc
 		compatible = "sitronix,st7735r";
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&adafrui18_pins>;
+		pinctrl-0 = <&adafruit18_pins>;
 
 		spi-max-frequency = <32000000>;
 		buswidth = <8>;
