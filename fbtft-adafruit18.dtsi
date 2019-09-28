@@ -1,0 +1,67 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+#include "gpio.h"
+
+// disable conflicting cape-universal nodes
+
+USES_PIN( P9_17 );  // cs 0
+USES_PIN( P9_18 );  // data out
+USES_PIN( P9_21 );  // data in
+USES_PIN( P9_22 );  // clk
+
+USES_PIN( P9_12 );  // reset
+USES_PIN( P9_15 );  // dc
+
+// setup pinmux and enable controller
+
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins>;
+
+	ti,spi-num-cs = <2>;
+
+	status = "okay";
+};
+
+&am33xx_pinmux {
+	spi0_pins: spi0 {
+		pinctrl-single,pins = <
+			PIN_IO_PULLUP(  P9_22, 0 )  // clk
+			PIN_IN_PULLUP(  P9_21, 0 )  // data in
+			PIN_OUT_PULLUP( P9_18, 0 )  // data out
+			PIN_OUT_PULLUP( P9_17, 0 )  // cs 0
+		>;
+	};
+};
+
+// setup fbtft panel
+
+&spi0 {
+	// XXX use same name as cape-universal for compatibility
+	spi0channel@0 {
+		reg = <0>;
+		compatible = "sitronix,st7735r";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&adafrui18_pins>;
+
+		spi-max-frequency = <32000000>;
+		buswidth = <8>;
+
+		// why.. just why...
+		gamma = "02 1c 07 12 37 32 29 2d 29 25 2B 39 00 01 03 10\n03 1d 07 06 2E 2C 29 2D 2E 2E 37 3F 00 00 02 10";
+
+		dc-gpios    = <&gpio1 16 ACTIVE_HIGH>;  // P9_15a
+		reset-gpios = <&gpio1 28 ACTIVE_HIGH>;  // P9_12
+	};
+};
+
+&am33xx_pinmux {
+	adafruit18_pins: adafruit18 {
+		pinctrl-single,pins = <
+			PIN_GPIO_PULLDOWN( P9_12 )  // 1.28 reset
+			PIN_GPIO_PULLDOWN( P9_15a)  // 1.16 dc
+			PIN_GPOUT_NOPULL(  P9_15b)  // (shared pin)
+		>;
+	};
+};
