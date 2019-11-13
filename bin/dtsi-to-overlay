@@ -21,6 +21,19 @@ sub fail {  die $_, "$file:$line: @_\n"  }
 my $nameRE = qr/\w[\w,.@-]*/;
 my $pathRE = qr!/|(?:/$nameRE)+!;
 
+if( @ARGV ) {
+	my $identifier = shift @ARGV;
+	$identifier =~ s!^.*/!!;
+	if( $identifier =~ /^$nameRE\z/ ) {
+		say "/ { fragment\@$n { target-path = \"/chosen\"; __overlay__ {";
+		say " overlays { $identifier = \"" . localtime . "\"; };";
+		say "}; }; };";
+		++$n;
+	} else {
+		warn "Invalid overlay identifier: '\Q$identifier\E'\n";
+	}
+}
+
 # this assumes input is CPP processed and properly indented
 while( <> ) {
 	++$line;

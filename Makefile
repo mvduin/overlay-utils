@@ -12,10 +12,10 @@ clean ::
 	${RM} *.dtbo
 
 %.dtbo: %.dtsi
-	${CPP} ${CPPFLAGS} $< -pipe | bin/dtsi-to-overlay \
+	${CPP} ${CPPFLAGS} $< -pipe | bin/dtsi-to-overlay $* \
 		| ${DTC} -@ -q -I dts -O dtb ${OUTPUT_OPTION}
 
 %.i.dts: %.dtsi
-	${CPP} ${CPPFLAGS} $< -pipe | bin/dtsi-to-overlay >$@
+	${CPP} ${CPPFLAGS} $< -pipe | bin/dtsi-to-overlay $* >$@
 
 .DELETE_ON_ERROR:
