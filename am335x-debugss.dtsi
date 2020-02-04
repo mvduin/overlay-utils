@@ -1,0 +1,10 @@
+&ocp {
+	debugss: debugss@4b000000 {
+		ti,hwmods = "debugss";
+		ti,no-idle-on-init;  // keep it enabled
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+	};
+};
