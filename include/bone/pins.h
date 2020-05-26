@@ -101,8 +101,8 @@
 #define P9_38  200  // A07 / adc ch 3
 #define P9_39  203  // B06 / adc ch 0
 #define P9_40  202  // C07 / adc ch 1
-#define P9_41a 109  // D13 / io 0.20 / emu 3
-#define P9_41b 106  // D14 / io 3.20 / clk out 1
+#define P9_41a 109  // D14 / io 0.20
+#define P9_41b 106  // D13 / io 3.20
 #define P9_42a  89  // C18 / io 0.07
 #define P9_42b 104  // B12 / io 3.18
 //	P9_43       // gnd
