@@ -26,7 +26,7 @@ USES_PIN( P8_14 );
 &am33xx_pinmux {
 	gpio_keys_pins: gpio-keys {
 		pinctrl-single,pins = <
-			PIN_GPIN_PULLDOWN( P8_14 )  // io 0.26  wakeup
+			PIN_PULLDN( P8_14, 7 )  // gpio 0.26 / wakeup
 		>;
 	};
 };

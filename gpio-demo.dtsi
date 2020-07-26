@@ -69,10 +69,10 @@
 &am33xx_pinmux {
 	gpio_demo_pins: gpio-demo {
 		pinctrl-single,pins = <
-			PIN_GPIO_PULLUP(  P8_07 )  // io 2.02  button
-			PIN_GPIO_PULLUP(  P8_08 )  // io 2.03  reset-thing
-			PIN_GPIO_PULLUP(  P8_09 )  // io 2.05  input-bidi
-			PIN_GPIO_PULLUP(  P8_10 )  // io 2.04  output-bidi
+			PIN_PULLUP( P8_07, 7 )  // gpio 2.02 / button
+			PIN_PULLUP( P8_08, 7 )  // gpio 2.03 / reset-thing
+			PIN_PULLUP( P8_09, 7 )  // gpio 2.05 / input-bidi
+			PIN_PULLUP( P8_10, 7 )  // gpio 2.04 / output-bidi
 		>;
 	};
 };

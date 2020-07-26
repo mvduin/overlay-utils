@@ -32,13 +32,13 @@ USES_PIN( P9_92 );  // (disable shared pin)
 &am33xx_pinmux {
 	spi1_pins: spi1 {
 		pinctrl-single,pins = <
-			PIN_IO_PULLUP(  P9_31, 3 )  // clk
-			PIN_IN_PULLUP(  P9_29, 3 )  // data in
-			PIN_OUT_PULLUP( P9_30, 3 )  // data out
-			PIN_OUT_PULLUP( P9_28, 3 )  // cs 0
+			PIN_PULLUP( P9_31, 3 )  // clk
+			PIN_PULLUP( P9_29, 3 )  // data in
+			PIN_PULLUP( P9_30, 3 )  // data out
+			PIN_PULLUP( P9_28, 3 )  // cs 0
 #if SPI1_DUAL_CS
-			PIN_OUT_PULLUP( P9_42a,2 )  // cs 1
-			PIN_OUT_NOPULL( P9_42b,7 )  // (disable shared pin)
+			PIN_PULLUP( P9_42a,2 )  // cs 1
+			PIN_NOPULL( P9_42b,7 )  // (disable shared pin)
 #endif
 		>;
 	};

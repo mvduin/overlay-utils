@@ -31,10 +31,10 @@ USES_PIN( P8_15 );
 &am33xx_pinmux {
 	eqep2_pins: eqep2 {
 		pinctrl-single,pins = <
-			PIN_IN_PULLDOWN( P8_12, 4 )	// A
-			PIN_IN_PULLDOWN( P8_11, 4 )	// B
-			PIN_IN_PULLDOWN( P8_16, 4 )	// index
-			PIN_IN_PULLDOWN( P8_15, 4 )	// strobe
+			PIN_PULLDN( P8_12, 4 )	// A
+			PIN_PULLDN( P8_11, 4 )	// B
+			PIN_PULLDN( P8_16, 4 )	// index
+			PIN_PULLDN( P8_15, 4 )	// strobe
 		>;
 	};
 };

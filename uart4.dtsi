@@ -12,10 +12,10 @@ USES_PIN( P9_11 );  // rxd
 &am33xx_pinmux {
 	uart4_pins: uart4 {
 		pinctrl-single,pins = <
-			PIN_OUT_PULLUP( P9_13, 6 )  // txd
-			PIN_IN_PULLUP(  P9_11, 6 )  // rxd
-		//	PIN_OUT_PULLUP( P8_33, 6 )  // rts
-		//	PIN_IN_PULLUP(  P8_35, 6 )  // cts
+			PIN_PULLUP( P9_13, 6 )  // txd
+			PIN_PULLUP( P9_11, 6 )  // rxd
+		//	PIN_PULLUP( P8_33, 6 )  // rts
+		//	PIN_PULLUP( P8_35, 6 )  // cts
 		>;
 	};
 };

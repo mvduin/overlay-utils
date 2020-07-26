@@ -13,8 +13,8 @@ USES_PIN( P9_16 );
 &am33xx_pinmux {
         pwm1_pins: pwm1 {
                 pinctrl-single,pins = <
-                        PIN_OUT_NOPULL( P9_14, 6 )  // out A
-                        PIN_OUT_NOPULL( P9_16, 6 )  // out B
+                        PIN_NOPULL( P9_14, 6 )  // out A
+                        PIN_NOPULL( P9_16, 6 )  // out B
                 >;
         };
 };

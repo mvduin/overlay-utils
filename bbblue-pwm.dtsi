@@ -17,7 +17,7 @@ USES_PIN( P9_28 );
 &am33xx_pinmux {
 	ecap2_pins: ecap2 {
 		pinctrl-single,pins = <
-			PIN_OUT_PULLDOWN( GP0_6, 4 )
+			PIN_PULLDN( GP0_6, 4 )
 		>;
 	};
 };

@@ -14,8 +14,8 @@ USES_PIN( P9_26 );
 &am33xx_pinmux {
 	can1_pins: can1 {
 		pinctrl-single,pins = <
-			PIN_IN_PULLUP(  P9_24, 2 )  // rx
-			PIN_OUT_PULLUP( P9_26, 2 )  // tx
+			PIN_PULLUP( P9_24, 2 )  // rx
+			PIN_PULLUP( P9_26, 2 )  // tx
 		>;
 	};
 };

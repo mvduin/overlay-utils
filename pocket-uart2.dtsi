@@ -14,8 +14,8 @@ USES_PIN( P1_10 );  // uart 2 txd
 &am33xx_pinmux {
 	uart2_pins: uart2 {
 		pinctrl-single,pins = <
-			PIN_OUT_NOPULL( P1_10, 1 )  // txd
-			PIN_IN_PULLUP(  P1_08, 1 )  // rxd
+			PIN_NOPULL( P1_10, 1 )  // txd
+			PIN_PULLUP( P1_08, 1 )  // rxd
 		>;
 	};
 };

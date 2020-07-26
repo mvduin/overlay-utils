@@ -73,18 +73,18 @@ USES_PIN(P2_06);  // <- irq
 &am33xx_pinmux {
 	spi0_pins: spi0 {
 		pinctrl-single,pins = <
-			PIN_OUT_PULLUP( P1_06, 0 )  // cs 0
-			PIN_IO_PULLUP(  P1_08, 0 )  // clk
-			PIN_IN_PULLUP(  P1_10, 0 )  // d0 miso
-			PIN_OUT_PULLUP( P1_12, 0 )  // d1 mosi
+			PIN_PULLUP( P1_06, 0 )  // cs 0
+			PIN_PULLUP( P1_08, 0 )  // clk
+			PIN_PULLUP( P1_10, 0 )  // d0 miso
+			PIN_PULLUP( P1_12, 0 )  // d1 mosi
 		>;
 	};
 
 	ra8875_pins: ra8875 {
 		pinctrl-single,pins = <
-			PIN_GPIO_PULLUP( P2_02 )  // io 1.27 reset
-			PIN_GPIN_PULLUP( P2_04 )  // io 1.26 wait
-			PIN_GPIN_PULLUP( P2_06 )  // io 1.25 irq
+			PIN_PULLUP( P2_02, 7 )  // gpio 1.27 / reset
+			PIN_PULLUP( P2_04, 7 )  // gpio 1.26 / wait
+			PIN_PULLUP( P2_06, 7 )  // gpio 1.25 / irq
 		>;
 	};
 };

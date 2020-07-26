@@ -30,10 +30,10 @@ USES_PIN( P9_23 );  // cs 1
 &am33xx_pinmux {
 	spi0_pins: spi0 {
 		pinctrl-single,pins = <
-			PIN_IO_PULLUP(  P9_22, 0 )  // clk
-			PIN_IN_PULLUP(  P9_21, 0 )  // data in
-			PIN_OUT_PULLUP( P9_18, 0 )  // data out
-			PIN_OUT_PULLUP( P9_17, 0 )  // cs 0
+			PIN_PULLUP( P9_22, 0 )  // clk
+			PIN_PULLUP( P9_21, 0 )  // data in
+			PIN_PULLUP( P9_18, 0 )  // data out
+			PIN_PULLUP( P9_17, 0 )  // cs 0
 			PIN_GPIO_PULLUP(P9_23 )     // cs 1 (gpio 1.17)
 		>;
 	};

@@ -22,7 +22,7 @@ USES_PIN( P8_11 );
 &am33xx_pinmux {
 	dht11_pin: humidity_sensor {
 		pinctrl-single,pins = <
-			PIN_IO_PULLUP( P8_11, 7 )  // gpio 1.13
+			PIN_PULLUP( P8_11, 7 )  // gpio 1.13
 		>;
 	};
 };
