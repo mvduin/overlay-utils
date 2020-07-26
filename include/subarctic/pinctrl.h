@@ -12,28 +12,28 @@
 #define SLEW_FAST	( 0 << 6 )
 #define SLEW_SLOW	( 1 << 6 )
 
-
-#define PIN_OUT_NOPULL(i,m)	PIN_CONFIG( i, m | INPUT_DIS | NO_PULL )
-#define PIN_OUT_PULLDOWN(i,m)	PIN_CONFIG( i, m | INPUT_DIS | PULL_DOWN )
-#define PIN_OUT_PULLUP(i,m)	PIN_CONFIG( i, m | INPUT_DIS | PULL_UP )
-
-#define PIN_IO_NOPULL(i,m)	PIN_CONFIG( i, m | INPUT_EN | NO_PULL )
-#define PIN_IO_PULLDOWN(i,m)	PIN_CONFIG( i, m | INPUT_EN | PULL_DOWN )
-#define PIN_IO_PULLUP(i,m)	PIN_CONFIG( i, m | INPUT_EN | PULL_UP )
-
-#define PIN_IN_NOPULL(i,m)	PIN_IO_NOPULL( i, m )
-#define PIN_IN_PULLDOWN(i,m)	PIN_IO_PULLDOWN( i, m )
-#define PIN_IN_PULLUP(i,m)	PIN_IO_PULLUP( i, m )
+// preferred macros:
+#define PIN_PULLDN(i,m)		PIN_CONFIG( i, m | SLEW_FAST | INPUT_EN | PULL_DOWN )
+#define PIN_PULLUP(i,m)		PIN_CONFIG( i, m | SLEW_FAST | INPUT_EN | PULL_UP )
+#define PIN_NOPULL(i,m)		PIN_CONFIG( i, m | SLEW_FAST | INPUT_EN | NO_PULL )
 
 
-#define PIN_GPOUT_NOPULL(i)	PIN_OUT_NOPULL( i, 7 )
-#define PIN_GPOUT_PULLDOWN(i)	PIN_OUT_PULLDOWN( i, 7 )
-#define PIN_GPOUT_PULLUP(i)	PIN_OUT_PULLUP( i, 7 )
-
-#define PIN_GPIO_NOPULL(i)	PIN_IO_NOPULL( i, 7 )
-#define PIN_GPIO_PULLDOWN(i)	PIN_IO_PULLDOWN( i, 7 )
-#define PIN_GPIO_PULLUP(i)	PIN_IO_PULLUP( i, 7 )
-
-#define PIN_GPIN_NOPULL(i)	PIN_IN_NOPULL( i, 7 )
-#define PIN_GPIN_PULLDOWN(i)	PIN_IN_PULLDOWN( i, 7 )
-#define PIN_GPIN_PULLUP(i)	PIN_IN_PULLUP( i, 7 )
+// DEPRECATED (backwards compatibility):
+#define PIN_IO_PULLDOWN(i,m)	PIN_PULLDN( i, m )
+#define PIN_IO_PULLUP(i,m)	PIN_PULLUP( i, m )
+#define PIN_IO_NOPULL(i,m)	PIN_NOPULL( i, m )
+#define PIN_IN_PULLDOWN(i,m)	PIN_PULLDN( i, m )
+#define PIN_IN_PULLUP(i,m)	PIN_PULLUP( i, m )
+#define PIN_IN_NOPULL(i,m)	PIN_NOPULL( i, m )
+#define PIN_OUT_NOPULL(i,m)	PIN_CONFIG( i, m | SLEW_FAST | INPUT_DIS | NO_PULL )
+#define PIN_OUT_PULLDOWN(i,m)	PIN_CONFIG( i, m | SLEW_FAST | INPUT_DIS | PULL_DOWN )
+#define PIN_OUT_PULLUP(i,m)	PIN_CONFIG( i, m | SLEW_FAST | INPUT_DIS | PULL_UP )
+#define PIN_GPIO_PULLDOWN(i)	PIN_PULLDN( i, 7 )
+#define PIN_GPIO_PULLUP(i)	PIN_PULLUP( i, 7 )
+#define PIN_GPIO_NOPULL(i)	PIN_NOPULL( i, 7 )
+#define PIN_GPIN_PULLDOWN(i)	PIN_PULLDN( i, 7 )
+#define PIN_GPIN_PULLUP(i)	PIN_PULLUP( i, 7 )
+#define PIN_GPIN_NOPULL(i)	PIN_NOPULL( i, 7 )
+#define PIN_GPOUT_PULLDOWN(i)	PIN_CONFIG( i, 7 | SLEW_FAST | INPUT_DIS | NO_PULL )
+#define PIN_GPOUT_PULLUP(i)	PIN_CONFIG( i, 7 | SLEW_FAST | INPUT_DIS | PULL_DOWN )
+#define PIN_GPOUT_NOPULL(i)	PIN_CONFIG( i, 7 | SLEW_FAST | INPUT_DIS | PULL_UP )
