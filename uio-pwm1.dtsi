@@ -1,0 +1,57 @@
+#include "subarctic/pinctrl.h"
+#include "bone/pins.h"
+
+// make sure subsystem is enabled and make it usable for uio
+&epwmss1 {
+        status = "okay";
+
+        ranges = <0x48302000 0x48302000 0x1000>;
+
+	// the entire subsystem's registers is a single 4K page so we make an
+	// uio device for that.  the submodule uio devices are mainly for the
+	// irq (with the declared register ranges just being informative).
+        uio@48302000 {
+        	reg = <0x48302000 0x1000>;
+
+        	compatible = "uio";
+        	symlink = "uio/pwmss1/module";
+        };
+};
+
+
+
+USES_PIN( P9_14 );
+USES_PIN( P9_16 );
+
+&am33xx_pinmux {
+        ehrpwm1_pins: ehrpwm1 {
+                pinctrl-single,pins = <
+                        PIN_OUT_NOPULL( P9_14, 6 )  // out A
+                        PIN_OUT_NOPULL( P9_16, 6 )  // out B
+                >;
+        };
+};
+
+&ehrpwm1 {
+        status = "okay";
+
+	// main DT neglects the HR registers
+        reg = <0x48302200 0x80>, <0x48302280 0x80>;
+        reg-names = "pwm", "hr";
+
+	// interrupt declaration missing in main DT
+	interrupt-parent = <&intc>;
+	interrupts = <87>, <59>;
+
+        pinctrl-names = "default";
+        pinctrl-0 = <&ehrpwm1_pins>;
+
+        compatible = "uio";
+        symlink = "uio/pwmss1/pwm";
+};
+
+// XXX it appears impossible to convince the kernel to enable tbclk, so make it
+// think the enable-bit has inverted meaning instead.  yes, this is disgusting.
+&ehrpwm1_tbclk {
+	ti,set-bit-to-disable;
+};
