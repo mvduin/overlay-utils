@@ -41,7 +41,7 @@ USES_PIN( P9_16 );
 
 	// interrupt declaration missing in main DT
 	interrupt-parent = <&intc>;
-	interrupts = <87>, <59>;
+	interrupts = <87>;
 
         pinctrl-names = "default";
         pinctrl-0 = <&ehrpwm1_pins>;
