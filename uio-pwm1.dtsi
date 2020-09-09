@@ -5,6 +5,9 @@
 &epwmss1 {
         status = "okay";
 
+	// ask kernel to keep its clocks enabled at all times
+        ti,no-idle;
+
         ranges = <0x48302000 0x48302000 0x1000>;
 
 	// the entire subsystem's registers is a single 4K page so we make an
