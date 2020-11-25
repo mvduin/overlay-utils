@@ -1,4 +1,3 @@
-#include "subarctic/pinctrl.h"
 #include "bone/pocket.h"
 
 USES_PIN( P1_08 );  // uart 2 rxd

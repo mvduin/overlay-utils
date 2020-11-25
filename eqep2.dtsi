@@ -1,5 +1,4 @@
-#include "subarctic/pinctrl.h"
-#include "bone/pins.h"
+#include "bone/black.h"
 
 USES_PIN( P8_12 );
 USES_PIN( P8_11 );

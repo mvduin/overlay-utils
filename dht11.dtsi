@@ -1,5 +1,4 @@
-#include "subarctic/pinctrl.h"
-#include "bone/pins.h"
+#include "bone/black.h"
 
 // Example for a DHT11/DHT22 humidity sensor connected to P8.11 (gpio 1.13).
 

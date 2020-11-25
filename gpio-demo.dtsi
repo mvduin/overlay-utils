@@ -1,6 +1,5 @@
+#include "bone/black.h"
 #include "gpio.h"
-#include "subarctic/pinctrl.h"
-#include "bone/pins.h"
 
 // XXX not compatible with cape-universal!
 
@@ -30,7 +29,7 @@
 		pinctrl-0 = <&gpio_demo_pins>;
 
 		// Note that gpio numbers for each pin can be found in the
-		// comments in include/bone/pins.h
+		// comments in include/bone/black.h
 
 		// input only, active-low; connect button between pin and gnd.
 		// declaring the gpio as ACTIVE_LOW means the value reads as 1

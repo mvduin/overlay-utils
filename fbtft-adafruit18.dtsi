@@ -1,5 +1,4 @@
-#include "subarctic/pinctrl.h"
-#include "bone/pins.h"
+#include "bone/black.h"
 #include "gpio.h"
 
 // disable conflicting cape-universal nodes

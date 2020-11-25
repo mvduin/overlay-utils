@@ -1,5 +1,4 @@
-#include "subarctic/pinctrl.h"
-#include "bone/pins.h"
+#include "bone/black.h"
 #include "irq.h"
 
 // note: this metadata is ignored

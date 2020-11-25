@@ -1,5 +1,4 @@
-#include "subarctic/pinctrl.h"
-#include "bone/pins.h"
+#include "bone/black.h"
 
 // make sure subsystem is enabled and make it usable for uio
 &epwmss1 {

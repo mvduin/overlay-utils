@@ -1,7 +1,6 @@
 // PWM output on the beaglebone blue
 
 #include "bone/blue.h"
-#include "subarctic/pinctrl.h"
 
 
 //-------- GP0 pin 6 -- eCAP 2 -------------------------------------------------

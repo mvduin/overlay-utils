@@ -1,6 +1,5 @@
+#include "bone/black.h"
 #include "gpio.h"
-#include "subarctic/pinctrl.h"
-#include "bone/pins.h"
 
 USES_PIN( P8_14 );
 

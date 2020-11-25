@@ -1,6 +1,5 @@
-#include "subarctic/pinctrl.h"
-#include "gpio.h"
 #include "bone/pocket.h"
+#include "gpio.h"
 
 // RA8875 display driver connected via spi to PocketBeagle
 //
