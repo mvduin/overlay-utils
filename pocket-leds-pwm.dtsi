@@ -1,0 +1,58 @@
+#include "bone/pocket.h"
+#include "pwm.h"
+
+// disable runtime pinmux configuration for pins used by this overlay:
+USES_PIN( P2_01 );  // ehrpwm 1a / custom0 led
+
+// since we're creating a virtual device there isn't really any better place
+// to put it than at the top level (/).  make sure its name doesn't conflict
+// with any existing nodes!
+/ {
+	custom-leds {
+		// use leds-pwm driver (drivers/leds/leds-pwm.c)
+		compatible = "pwm-leds";
+
+		// attach pinmux node for pins used by this device
+		pinctrl-names = "default";
+		pinctrl-0 = <&custom_leds_pins>;
+
+		// create a child node for each led
+		custom0 {
+			// (optional) system-wide label for the led, which also
+			// becomes the name of its directory in /sys/class/leds;
+			// if omitted it defaults to the node name
+			//label = "custom0";
+
+			// specify pwm device, pwm channel, period in
+			// nanoseconds, and polarity:
+			pwms = <&ehrpwm1 0 1000000 PWM_ACTIVE_HIGH>;  // P2.01
+
+			// beware that the two channels of an ehrpwm device
+			// _must_ use the same pwm period!
+
+			// (optional) specify default trigger:
+			//linux,default-trigger = "none";
+
+			// note: not all triggers can be configured via DT; for
+			// example the "netdev" (network link/activity) trigger
+			// requires configuration via sysfs
+		};
+	};
+};
+
+// make sure the pwm controller and its parent subsystem are enabled
+&epwmss1 {
+	status = "okay";
+};
+&ehrpwm1 {
+	status = "okay";
+};
+
+// define pinmux node
+&am33xx_pinmux {
+	custom_leds_pins: custom-leds {
+		pinctrl-single,pins = <
+			PIN_PULLDN( P2_02, 6 )  // ehrpwm 1a / custom0 led
+		>;
+	};
+};
