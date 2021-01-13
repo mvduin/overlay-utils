@@ -1,5 +1,5 @@
 // replacement for the AM335X-PRU-UIO-00A0 overlay
-// compatible with kernel series 4.14-ti and 4.19-ti
+// compatible with kernel series 4.14-ti and 4.19-ti, not with 4.9-ti
 
 &pruss_soc_bus {
 	status = "okay";
@@ -11,8 +11,4 @@
 	status = "okay";
 	compatible = "ti,pruss-v2";
 	ti,pintc-offset = <0x20000>;
-	// if you add these lines it'll be compatible with 4.9-ti and 4.19-ti
-	// but it would no longer be compatible with 4.14-ti:
-	//	reg = <0x4a300000 0x80000>;
-	//	reg-names = "pruss";
 };
