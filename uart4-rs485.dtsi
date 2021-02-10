@@ -1,0 +1,37 @@
+#include "bone/black.h"
+
+// disable conflicting cape-universal nodes
+
+USES_PIN( P9_13 );  // txd
+USES_PIN( P9_11 );  // rxd
+USES_PIN( P8_33 );  // rts (driver enable)
+
+// pinmux for module
+&am33xx_pinmux {
+	uart4_pins: uart4 {
+		pinctrl-single,pins = <
+			PIN_PULLUP( P9_13, 6 )  // txd
+			PIN_PULLUP( P9_11, 6 )  // rxd
+			PIN_PULLDN( P8_33, 6 )  // rts (driver enable)
+		>;
+	};
+};
+
+// configure and enable module
+&uart4 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart4_pins>;
+
+	// XXX  all of the properties below are optional, and although they're
+	// defined they don't actually work yet in kernel 4.19;  you'll need to
+	// set up rs485 from userspace instead.
+
+	// contrary to the name, this makes rts active-high for driver-enable
+	rs485-rts-active-low;
+
+	linux,rs485-enabled-at-boot-time;
+	//rs485-rts-delay = <DELAY_BEFORE_SEND DELAY_AFTER_SEND>;
+	//rs485-rx-during-tx;
+};
