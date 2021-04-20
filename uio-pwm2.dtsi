@@ -1,0 +1,65 @@
+#include "bone/black.h"
+
+// make sure subsystem is enabled and make it usable for uio
+&epwmss2 {
+	status = "okay";
+
+	// ask kernel to keep its clocks enabled at all times
+	ti,no-idle;
+
+	// make sure the entire subsystem's range is mapped
+	ranges = <0x48304000 0x48304000 0x1000>;
+
+	// the entire subsystem's registers is a single 4K page so we make a
+	// uio device for that.  the submodule uio devices are mainly for the
+	// irq (with the declared register ranges just being informative).
+	uio@48304000 {
+		reg = <0x48304000 0x1000>;
+
+		compatible = "uio";
+		symlink = "uio/pwmss2/module";
+	};
+};
+
+
+
+USES_PIN( P8_13 );  // ehrpwm 2 out B
+USES_PIN( P8_19 );  // ehrpwm 2 out A
+
+&am33xx_pinmux {
+	ehrpwm2_pins: ehrpwm2 {
+		pinctrl-single,pins = <
+			// both pins are typically driven so I could use NOPULL
+			// to save a tiny bit of power consumption, but it is
+			// possible to make ehrpwm disable its outputs so just
+			// leave pull-down enabled (which is the default pull
+			// for these pins) to ensure they're never floating.
+			PIN_PULLDN( P8_19, 4 )	// out A
+			PIN_PULLDN( P8_13, 4 )	// out B
+		>;
+	};
+};
+
+&ehrpwm2 {
+	status = "okay";
+
+	// main DT neglects the HR registers
+	reg = <0x48304200 0x80>, <0x48304280 0x80>;
+	reg-names = "pwm", "hr";
+
+	// interrupt declaration missing in main DT
+	interrupt-parent = <&intc>;
+	interrupts = <39>;
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&ehrpwm2_pins>;
+
+	compatible = "uio";
+	symlink = "uio/pwmss2/pwm";
+};
+
+// XXX it appears impossible to convince the kernel to enable tbclk, so make it
+// think the enable-bit has inverted meaning instead.  yes, this is disgusting.
+&ehrpwm2_tbclk {
+	ti,set-bit-to-disable;
+};
