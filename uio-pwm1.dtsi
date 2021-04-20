@@ -28,8 +28,13 @@ USES_PIN( P9_16 );
 &am33xx_pinmux {
         ehrpwm1_pins: ehrpwm1 {
                 pinctrl-single,pins = <
-                        PIN_NOPULL( P9_14, 6 )  // out A
-                        PIN_NOPULL( P9_16, 6 )  // out B
+			// both pins are typically driven so I could use NOPULL
+			// to save a tiny bit of power consumption, but it is
+			// possible to make ehrpwm disable its outputs so just
+			// leave pull-down enabled (which is the default pull
+			// for these pins) to ensure they're never floating.
+			PIN_PULLDN( P9_14, 6 )  // out A
+			PIN_PULLDN( P9_16, 6 )  // out B
                 >;
         };
 };
