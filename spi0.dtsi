@@ -7,19 +7,13 @@ USES_PIN( P9_18 );  // data out
 USES_PIN( P9_21 );  // data in
 USES_PIN( P9_22 );  // clk
 
-// XXX apparently this doesn't work
-//&spi0 {
-//	spi0channel@0 {  status = "disabled";  };
-//	spi0channel@1 {  status = "disabled";  };
-//};
+USES_SPI( 0, 0 );
 
 // setup pinmux and enable controller
 
 &spi0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi0_pins>;
-
-	ti,spi-num-cs = <2>;
 
 	status = "okay";
 };
@@ -38,19 +32,19 @@ USES_PIN( P9_22 );  // clk
 // declare connected device (example)
 
 &spi0 {
-	// note: consider giving the node a descriptive name like flash@0 or
-	// whatever to make it easier to identify.  You can even use a tiny
-	// udev rule to then automatically make a symlink like /dev/spi/flash
-
-	// XXX for now, use same names as cape-universal for compatibility
-	spi0channel@0 {
+	// NOTE: consider giving the node a descriptive name like flash@0
+	spidev@0 {
 		reg = <0>;
 		compatible = "spidev";
+
+		// create symlink (using /etc/udev/rules.d/10-of-symlink.rules)
+		// NOTE: again, consider using something more descriptive
+		symlink = "spi/0.0";  // create /dev/spi/0.0 symlink
 
 		// XXX replace by actual max freq of device
 		spi-max-frequency = <48000000>;
 
-		// this select SPI mode 3
+		// XXX this selects SPI mode 3 by default
 		spi-cpol;
 		spi-cpha;
 	};
