@@ -8,22 +8,18 @@ USES_PIN( P9_21 );  // data in
 USES_PIN( P9_22 );  // clk
 USES_PIN( P9_23 );  // cs 1
 
-// XXX apparently this doesn't work
-//&spi0 {
-//	spi0channel@0 {  status = "disabled";  };
-//	spi0channel@1 {  status = "disabled";  };
-//};
+USES_SPI( 0, 0 );
+USES_SPI( 0, 1 );
 
 // setup pinmux and enable controller
 
 &spi0 {
+	status = "okay";
+
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi0_pins>;
 
-	ti,spi-num-cs = <2>;
 	cs-gpios = <0>, <&gpio1 17 0>;  // <0> = use hardware chip select
-
-	status = "okay";
 };
 
 &am33xx_pinmux {
@@ -33,7 +29,7 @@ USES_PIN( P9_23 );  // cs 1
 			PIN_PULLUP( P9_21, 0 )  // data in
 			PIN_PULLUP( P9_18, 0 )  // data out
 			PIN_PULLUP( P9_17, 0 )  // cs 0
-			PIN_GPIO_PULLUP(P9_23 )     // cs 1 (gpio 1.17)
+			PIN_PULLUP( P9_23, 7 )  // cs 1 (gpio 1.17)
 		>;
 	};
 };
@@ -41,31 +37,36 @@ USES_PIN( P9_23 );  // cs 1
 // declare connected devices (example)
 
 &spi0 {
-	// note: consider giving the nodes descriptive names like flash@0 or
-	// whatever to make them easier to identify.  You can even use a tiny
-	// udev rule to then automatically make a symlink like /dev/spi/flash
+	// NOTE: consider giving the nodes descriptive names like flash@0
 
-	// XXX for now, use same names as cape-universal for compatibility
-	spi0channel@0 {
+	spidev@0 {
 		reg = <0>;
 		compatible = "spidev";
 
-		// XXX replace by actual max freq of device
+		// create symlink (using /etc/udev/rules.d/10-of-symlink.rules)
+		// NOTE: again, consider using something more descriptive
+		symlink = "spi/0.0";  // create /dev/spi/0.0 symlink
+
+		// XXX replace by actual max frequency supported by device
 		spi-max-frequency = <48000000>;
 
-		// this select SPI mode 3
+		// XXX this selects SPI mode 3 by default, adjust as appropriate
 		spi-cpol;
 		spi-cpha;
 	};
 
-	spi0channel@1 {
+	spidev@1 {
 		reg = <1>;
 		compatible = "spidev";
 
-		// XXX replace by actual max freq of device
+		// create symlink (using /etc/udev/rules.d/10-of-symlink.rules)
+		// NOTE: again, consider using something more descriptive
+		symlink = "spi/0.1";  // create /dev/spi/0.1 symlink
+
+		// XXX replace by actual max frequency supported by device
 		spi-max-frequency = <48000000>;
 
-		// this select SPI mode 3
+		// XXX this selects SPI mode 3 by default, adjust as appropriate
 		spi-cpol;
 		spi-cpha;
 	};

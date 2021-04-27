@@ -12,10 +12,10 @@ USES_SPI( 0, 0 );
 // setup pinmux and enable controller
 
 &spi0 {
+	status = "okay";
+
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi0_pins>;
-
-	status = "okay";
 };
 
 &am33xx_pinmux {
@@ -33,6 +33,7 @@ USES_SPI( 0, 0 );
 
 &spi0 {
 	// NOTE: consider giving the node a descriptive name like flash@0
+
 	spidev@0 {
 		reg = <0>;
 		compatible = "spidev";
@@ -41,10 +42,10 @@ USES_SPI( 0, 0 );
 		// NOTE: again, consider using something more descriptive
 		symlink = "spi/0.0";  // create /dev/spi/0.0 symlink
 
-		// XXX replace by actual max freq of device
+		// XXX replace by actual max frequency supported by device
 		spi-max-frequency = <48000000>;
 
-		// XXX this selects SPI mode 3 by default
+		// XXX this selects SPI mode 3 by default, adjust as appropriate
 		spi-cpol;
 		spi-cpha;
 	};
