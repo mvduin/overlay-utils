@@ -1,0 +1,36 @@
+#pragma once
+#include "subarctic/uio/pwmss2.dtsi"  // make &epwmss2 usable for uio
+
+&ehrpwm2 {
+	status = "okay";
+
+	// main DT neglects the HR registers
+	reg = <0x48304200 0x80>, <0x48304280 0x80>;
+	reg-names = "pwm", "hr";
+
+	// interrupt declaration missing in main DT
+	interrupt-parent = <&intc>;
+	interrupts = <39>;
+
+	compatible = "uio";
+	symlink = "uio/pwmss2/pwm";
+};
+
+// XXX it appears impossible to convince the kernel to enable tbclk, so make it
+// think the enable-bit has inverted meaning instead.  yes, this is disgusting.
+&ehrpwm2_tbclk {
+	ti,set-bit-to-disable;
+};
+
+// add uio device for the rarely used tripzone interrupt, disable it by default
+&epwmss2 {
+	ehrpwm2_tz: pwm-tz {
+		status = "disabled";
+
+		interrupt-parent = <&intc>;
+		interrupts = <60>;
+
+		compatible = "uio";
+		symlink = "uio/pwmss2/pwm-tz";
+	};
+};

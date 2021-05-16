@@ -1,26 +1,5 @@
 #include "bone/black.h"
-
-// make sure subsystem is enabled and make it usable for uio
-&epwmss0 {
-        status = "okay";
-
-	// ask kernel to keep its clocks enabled at all times
-        ti,no-idle;
-
-	// map the full 4K address range of the subsystem
-        ranges = <0x48300000 0x48300000 0x1000>;
-
-	// The entire subsystem's registers is a single 4K page so we make a
-	// uio device for that.  The submodule uio devices are mainly for the
-	// irq (with the declared register ranges just being informative).
-        uio@48300000 {
-        	reg = <0x48300000 0x1000>;
-
-        	compatible = "uio";
-        	symlink = "uio/pwmss0/module";
-        };
-};
-
+#include "subarctic/uio/pwmss0.dtsi"  // make &epwmss0 usable for uio
 
 // This enables both ecap0 and eqep0 on P9.42 for flexibiliy, allowing
 // - using eCAP as PWM output and eQEP for monitoring, or
@@ -47,19 +26,19 @@ USES_PIN( P9_92 );  // P9_42b  eqep 0 in A
 &ecap0 {
         status = "okay";
 
-        pinctrl-names = "default";
-        pinctrl-0 = <&ecap0_pins>;
-
         compatible = "uio";
         symlink = "uio/pwmss0/cap";
+
+        pinctrl-names = "default";
+        pinctrl-0 = <&ecap0_pins>;
 };
 
 &eqep0 {
         status = "okay";
 
-        pinctrl-names = "default";
-        pinctrl-0 = <&eqep0_pins>;
-
         compatible = "uio";
         symlink = "uio/pwmss0/qep";
+
+        pinctrl-names = "default";
+        pinctrl-0 = <&eqep0_pins>;
 };

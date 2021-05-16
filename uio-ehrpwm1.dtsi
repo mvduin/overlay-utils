@@ -1,0 +1,24 @@
+#include "bone/black.h"
+#include "subarctic/uio/ehrpwm1.dtsi"  // configure &ehrpwm1 for uio
+
+USES_PIN( P9_14 );  // ehrpwm 1 out A
+USES_PIN( P9_16 );  // ehrpwm 1 out B
+
+&ehrpwm1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&ehrpwm1_pins>;
+};
+
+&am33xx_pinmux {
+	ehrpwm1_pins: ehrpwm1 {
+		pinctrl-single,pins = <
+			// both pins are typically driven so I could use NOPULL
+			// to save a tiny bit of power consumption, but it is
+			// possible to make ehrpwm disable its outputs so just
+			// leave pull-down enabled (which is the default pull
+			// for these pins) to ensure they're never floating.
+			PIN_PULLDN( P9_14, 6 )	// out A
+			PIN_PULLDN( P9_16, 6 )	// out B
+		>;
+	};
+};

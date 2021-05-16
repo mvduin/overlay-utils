@@ -1,0 +1,23 @@
+#pragma once
+#include "uio.h"
+
+// make sure subsystem is enabled and make it usable for uio
+&epwmss0 {
+	status = "okay";
+
+	// ask kernel to keep its clocks enabled at all times
+	ti,no-idle;
+
+	// make sure the entire subsystem's range is mapped
+	ranges = <0x48300000 0x48300000 0x1000>;
+
+	// the entire subsystem's registers is a single 4K page so we make a
+	// uio device for that.  the submodule uio devices are mainly for the
+	// irq (with the declared register ranges just being informative).
+	uio@48300000 {
+		reg = <0x48300000 0x1000>;
+
+		compatible = UIO_COMPATIBLE;
+		symlink = "uio/pwmss0/module";
+	};
+};
