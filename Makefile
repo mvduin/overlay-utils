@@ -3,7 +3,7 @@ export SHELLOPTS := pipefail
 CPP = cpp
 CPPFLAGS = -nostdinc -undef -x assembler-with-cpp
 CPPFLAGS += -D__DTS__
-CPPFLAGS += -I include -I ../bb.org-overlays/include
+CPPFLAGS += -I include
 DTC = dtc
 
 all :: $(patsubst %.dtsi,%.dtbo,$(wildcard *.dtsi))
