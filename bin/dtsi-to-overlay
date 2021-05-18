@@ -18,12 +18,12 @@ my( $line, $file ) = ( 0, '-' );
 
 sub fail {  die $_, "$file:$line: @_\n"  }
 
-my $nameRE = qr/\w[\w,.@-]*/;
+my $nameRE = qr/[\w.,+*#@-]+/;
 my $pathRE = qr!/|(?:/$nameRE)+!;
 
 if( @ARGV ) {
 	my $identifier = shift @ARGV;
-	$identifier =~ s!^.*/!!;
+	$identifier =~ s!/!#!g;
 	if( $identifier =~ /^$nameRE\z/ ) {
 		say "/ { fragment\@$n { target-path = \"/chosen\"; __overlay__ {";
 		say " overlays { $identifier = \"" . localtime . "\"; };";
