@@ -1,0 +1,9 @@
+#pragma once
+#include "uio/pwmss0.dtsi"  // make &epwmss0 usable for uio
+
+&ecap0 {
+        status = "okay";
+
+        compatible = UIO_COMPATIBLE;
+        symlink = "uio/pwmss0/cap";
+};

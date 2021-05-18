@@ -1,0 +1,9 @@
+#pragma once
+#include "uio/pwmss2.dtsi"  // make &epwmss2 usable for uio
+
+&ecap2 {
+        status = "okay";
+
+        compatible = UIO_COMPATIBLE;
+        symlink = "uio/pwmss2/cap";
+};

@@ -1,5 +1,5 @@
 #pragma once
-#include "subarctic/uio/pwmss2.dtsi"  // make &epwmss2 usable for uio
+#include "uio/pwmss2.dtsi"  // make &epwmss2 usable for uio
 
 &ehrpwm2 {
 	status = "okay";
@@ -12,7 +12,7 @@
 	interrupt-parent = <&intc>;
 	interrupts = <39>;
 
-	compatible = "uio";
+	compatible = UIO_COMPATIBLE;
 	symlink = "uio/pwmss2/pwm";
 };
 
@@ -22,15 +22,13 @@
 	ti,set-bit-to-disable;
 };
 
-// add uio device for the rarely used tripzone interrupt, disable it by default
+// add uio device for the rarely used tripzone interrupt
 &epwmss2 {
 	ehrpwm2_tz: pwm-tz {
-		status = "disabled";
-
 		interrupt-parent = <&intc>;
 		interrupts = <60>;
 
-		compatible = "uio";
+		compatible = UIO_COMPATIBLE;
 		symlink = "uio/pwmss2/pwm-tz";
 	};
 };

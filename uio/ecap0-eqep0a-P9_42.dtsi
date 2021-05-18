@@ -1,5 +1,6 @@
 #include "bone/black.h"
-#include "subarctic/uio/pwmss0.dtsi"  // make &epwmss0 usable for uio
+#include "uio/ecap0.dtsi"  // setup &ecap0 for uio
+#include "uio/eqep0.dtsi"  // setup &eqep0 for uio
 
 // This enables both ecap0 and eqep0 on P9.42 for flexibiliy, allowing
 // - using eCAP as PWM output and eQEP for monitoring, or
@@ -8,6 +9,16 @@
 // disable cape-universal for pins used:
 USES_PIN( P9_42 );  // P9_42a  ecap 0 in/out
 USES_PIN( P9_92 );  // P9_42b  eqep 0 in A
+
+&ecap0 {
+        pinctrl-names = "default";
+        pinctrl-0 = <&ecap0_pins>;
+};
+
+&eqep0 {
+        pinctrl-names = "default";
+        pinctrl-0 = <&eqep0_pins>;
+};
 
 &am33xx_pinmux {
         ecap0_pins: ecap0 {
@@ -21,24 +32,4 @@ USES_PIN( P9_92 );  // P9_42b  eqep 0 in A
                         PIN_PULLDN( P9_42b, 1 )  // eqep 0 in A
                 >;
         };
-};
-
-&ecap0 {
-        status = "okay";
-
-        compatible = "uio";
-        symlink = "uio/pwmss0/cap";
-
-        pinctrl-names = "default";
-        pinctrl-0 = <&ecap0_pins>;
-};
-
-&eqep0 {
-        status = "okay";
-
-        compatible = "uio";
-        symlink = "uio/pwmss0/qep";
-
-        pinctrl-names = "default";
-        pinctrl-0 = <&eqep0_pins>;
 };

@@ -1,0 +1,9 @@
+#pragma once
+#include "uio/pwmss1.dtsi"  // make &epwmss1 usable for uio
+
+&eqep1 {
+        status = "okay";
+
+        compatible = UIO_COMPATIBLE;
+        symlink = "uio/pwmss1/qep";
+};

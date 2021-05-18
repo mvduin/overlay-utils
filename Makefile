@@ -6,13 +6,16 @@ CPPFLAGS = -nostdinc -undef -x assembler-with-cpp
 # see -Wno-pragma-once-outside-header
 CPPFLAGS += -w
 CPPFLAGS += -D__DTS__
-CPPFLAGS += -I include
+CPPFLAGS += -I include -I .
 DTC = dtc
 
-all :: $(patsubst %.dtsi,%.dtbo,$(wildcard *.dtsi))
+dtsi_files := $(wildcard *.dtsi uio/*.dtsi)
+dtbo_files := ${dtsi_files:%.dtsi=%.dtbo}
+
+all :: ${dtbo_files}
 
 clean ::
-	${RM} *.dtbo
+	${RM} *.dtbo *.i.dts uio/*.dtbo uio/*.i.dts
 
 %.dtbo: %.dtsi
 	${CPP} ${CPPFLAGS} $< -pipe | bin/dtsi-to-overlay $* \

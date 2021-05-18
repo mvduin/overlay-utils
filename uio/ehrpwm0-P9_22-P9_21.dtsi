@@ -1,5 +1,5 @@
 #include "bone/black.h"
-#include "subarctic/uio/ehrpwm0.dtsi"  // configure &ehrpwm0 for uio
+#include "uio/ehrpwm0.dtsi"  // configure &ehrpwm0 for uio
 
 USES_PIN( P9_21 );  // ehrpwm 0 out B
 USES_PIN( P9_22 );  // ehrpwm 0 out A

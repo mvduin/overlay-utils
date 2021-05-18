@@ -1,0 +1,36 @@
+Device Tree overlay examples for Userspace I/O (UIO).
+
+To be used for example with py-uio (https://github.com/mvduin/py-uio).
+
+
+In general, setting up a PWMSS submodule (eCAP, eQEP, or eHRPWM) for direct
+userspace access via UIO requires three steps:
+  - setup the parent PWMSS instance (this does not affect the individual modules)
+  - configure the submodule to use UIO and enable it
+  - declare a pinmux node for the pin(s) used and attach it to the submodule
+
+For the sake of reusability these tasks have been split into separate files.
+
+These only setup the PWMSS instance but do not configure any submodule for UIO:
+  - uio/pwmss0.dtsi
+  - uio/pwmss1.dtsi
+  - uio/pwmss2.dtsi
+
+These additionally configure and enable a submodule, but do not perform any
+pinmux setup.  You can use these dtbos directly if you don't need any pins
+configured or you use cape-universal (config-pin) to do so:
+  - uio/ecap0.dtsi
+  - uio/ecap1.dtsi
+  - uio/ecap2.dtsi
+  - uio/eqep0.dtsi
+  - uio/eqep1.dtsi
+  - uio/eqep2.dtsi
+  - uio/ehrpwm0.dtsi
+  - uio/ehrpwm1.dtsi
+  - uio/ehrpwm2.dtsi
+
+These are concrete examples for the BeagleBone Black that include pinmux:
+  - uio/ecap0-eqep0a-P9_42.dtsi		// P9.42 = ecap 0 in/out + eqep 0 in A
+  - uio/ehrpwm0-P9_22-P9_21.dtsi	// P9.22 = pwm 0 out A,  P9.21 = pwm 0 out B
+  - uio/ehrpwm1-P9_14-P9_16.dtsi	// P9.14 = pwm 1 out A,  P9.16 = pwm 1 out B
+  - uio/ehrpwm2-P8_19-P8_13.dtsi	// P8.19 = pwm 2 out A,  P8.13 = pwm 2 out B
