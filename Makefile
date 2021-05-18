@@ -1,4 +1,4 @@
-export SHELLOPTS := pipefail
+SHELL := /bin/bash -o pipefail
 
 CPP = cpp
 CPPFLAGS = -nostdinc -undef -x assembler-with-cpp
