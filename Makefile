@@ -2,6 +2,9 @@ SHELL := /bin/bash -o pipefail
 
 CPP = cpp
 CPPFLAGS = -nostdinc -undef -x assembler-with-cpp
+# gcc has no way to disable just the "#pragma once in main file" warning,
+# see -Wno-pragma-once-outside-header
+CPPFLAGS += -w
 CPPFLAGS += -D__DTS__
 CPPFLAGS += -I include
 DTC = dtc
