@@ -1,0 +1,32 @@
+#include "bone/black.h"
+
+// BEWARE: the rts/cts pins for uart1 are on P9.19 + P9.20, which are the pins
+// for the I²C bus used for cape autodiscovery hence will both be driven during
+// early boot.  be careful to avoid a drive conflict (particularly on P9.20),
+// or use a 1 kΩ series resistor to limit current.
+
+// disable conflicting cape-universal nodes
+USES_PIN( P9_24 );  // txd
+USES_PIN( P9_26 );  // rxd
+USES_PIN( P9_19 );  // rts
+USES_PIN( P9_20 );  // cts
+
+// pinmux for module
+&am33xx_pinmux {
+	uart1_pins: uart1 {
+		pinctrl-single,pins = <
+			PIN_PULLUP( P9_24, 0 )  // txd
+			PIN_PULLUP( P9_26, 0 )  // rxd
+			PIN_PULLUP( P9_19, 0 )  // rts
+			PIN_PULLUP( P9_20, 0 )  // cts
+		>;
+	};
+};
+
+// configure and enable module
+&uart1 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart1_pins>;
+};
