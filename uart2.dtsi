@@ -1,23 +1,23 @@
 #include "bone/black.h"
 
 // disable conflicting cape-universal nodes
-USES_PIN( P9_13 );  // txd
-USES_PIN( P9_11 );  // rxd
+USES_PIN( P9_21 );  // txd
+USES_PIN( P9_22 );  // rxd
 
 // pinmux for module
 &am33xx_pinmux {
-	uart4_pins: uart4 {
+	uart2_pins: uart2 {
 		pinctrl-single,pins = <
-			PIN_PULLUP( P9_13, 6 )  // txd
-			PIN_PULLUP( P9_11, 6 )  // rxd
+			PIN_PULLUP( P9_21, 1 )  // txd
+			PIN_PULLUP( P9_22, 1 )  // rxd
 		>;
 	};
 };
 
 // configure and enable module
-&uart4 {
+&uart2 {
 	status = "okay";
 
 	pinctrl-names = "default";
-	pinctrl-0 = <&uart4_pins>;
+	pinctrl-0 = <&uart2_pins>;
 };

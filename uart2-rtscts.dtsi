@@ -1,0 +1,30 @@
+#include "bone/black.h"
+
+// NOTE: this overlay conflicts with video output.  be sure to disable it by
+// uncommenting disable_uboot_overlay_video=1 in /boot/uEnv.txt
+
+// disable conflicting cape-universal nodes
+USES_PIN( P9_21 );  // txd
+USES_PIN( P9_22 );  // rxd
+USES_PIN( P8_38 );  // rts
+USES_PIN( P8_37 );  // cts
+
+// pinmux for module
+&am33xx_pinmux {
+	uart2_pins: uart2 {
+		pinctrl-single,pins = <
+			PIN_PULLUP( P9_21, 1 )  // txd
+			PIN_PULLUP( P9_22, 1 )  // rxd
+			PIN_PULLUP( P8_38, 6 )  // rts
+			PIN_PULLUP( P8_37, 6 )  // cts
+		>;
+	};
+};
+
+// configure and enable module
+&uart2 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart2_pins>;
+};

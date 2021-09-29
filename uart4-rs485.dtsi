@@ -1,7 +1,9 @@
 #include "bone/black.h"
 
-// disable conflicting cape-universal nodes
+// NOTE: this overlay conflicts with video output.  be sure to disable it by
+// uncommenting disable_uboot_overlay_video=1 in /boot/uEnv.txt
 
+// disable conflicting cape-universal nodes
 USES_PIN( P9_13 );  // txd
 USES_PIN( P9_11 );  // rxd
 USES_PIN( P8_33 );  // rts (driver enable)
