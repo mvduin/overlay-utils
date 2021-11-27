@@ -62,12 +62,12 @@
 
 //	P9_01       // gnd
 //	P9_02       // gnd
-//	P9_03       // vdd_3v3b
-//	P9_04       // vdd_3v3b
-//	P9_05       // sys_5v (pmic out)
-//	P9_06       // sys_5v (pmic out)
-//	P9_07       // dc_5v (pmic in)
-//	P9_08       // dc_5v (pmic in)
+//	P9_03       // 3.3v out (vdd_3v3b)
+//	P9_04       // 3.3v out (vdd_3v3b)
+//	P9_05       // 5v in (vdd_5v)
+//	P9_06       // 5v in (vdd_5v)
+//	P9_07       // 5v out (sys_5v)
+//	P9_08       // 5v out (sys_5v)
 //	P9_09       // power btn (pmic)
 #define P9_10  110  // A10 / reset
 #define P9_11   28  // T17 / io 0.30
