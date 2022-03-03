@@ -1,0 +1,49 @@
+&tscadc {
+	status = "okay";
+
+	adc {
+		// configure one or more (up to 8) steps for the adc to execute:
+
+		// for each step, the channel to sample
+		// range: 0 .. 7
+		ti,adc-channels = <0 1 2 3 4 5 6 7>;
+
+		// for each step, number of adc clock cycles to wait between setting up muxes and sampling
+		// range: 0 .. 262143
+		// optional, default is 152 (XXX but why?!).
+		ti,chan-step-opendelay = <0 0 0 0 0 0 0 0>;
+		// XXX is there any purpose to set this nonzero other than to fine-tune the sample rate?
+
+		// for each step, how many times it should sample to average
+		// range: 1 .. 16, must be power of two (i.e. 1, 2, 4, 8, or 16)
+		// optional, default is 16.
+		ti,chan-step-avg = <1 1 1 1 1 1 1 1>;
+		// best results are probably obtained by setting this to 1 and applying a low-pass filter
+		// in userspace instead.  averaging is a pretty mediocre low-pass filter.
+
+		// for each step, number of adc clock cycles to sample minus two
+		// range: 0 .. 255   (resulting in sampling time of 2 .. 257 cycles)
+		// optional, default is 0.
+		ti,chan-step-sampledelay = <0 0 0 0 0 0 0 0>;
+		// if this is set too low, accuracy will deteriorate when the thing you're measuring has a
+		// high source impedance.  max source impedance recommended (by erratum 1.0.32) is:
+		//	(2 + sampledelay) * 2.873 kΩ - 200 Ω
+		// (based on the 5.5 pF nominal capacitance specified in the datasheet this seems to ensure
+		// the sampling period is at least 21 times the RC constant)
+
+
+		// after sampling, conversion time is 13 adc clock cycles
+		//
+		// adc clock is 3 MHz, therefore total time per step in microseconds is
+		//	( opendelay + avg * ( 2 + sampledelay + 13 ) ) / 3
+		//
+		// if all steps are configured the same (other than channel number) then sample rate will be:
+		//	3 MHz / ( opendelay + avg * ( 2 + sampledelay + 13 ) ) / number_of_steps
+		//
+		// the highest samplerate obtainable (with avg=1, opendelay=sampledelay=0) is therefore:
+		//	200 kHz / number_of_steps
+		//
+		// using the kernel defaults (for avg/opendelay/sampledelay) yields a sample rate of:
+		//	7.653 kHz / number_of_steps
+	};
+};
