@@ -1,0 +1,11 @@
+// replacement for the AM335X-PRU-UIO-00A0 overlay
+// compatible with kernel series 5.x-ti, not with 4.x-ti
+
+&pruss_tm {
+	status = "okay";
+};
+
+&pruss {
+	compatible = "ti,pruss-v2";
+	ti,pintc-offset = <0x20000>;
+};
