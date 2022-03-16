@@ -8,4 +8,6 @@
 &pruss {
 	compatible = "ti,pruss-v2";
 	ti,pintc-offset = <0x20000>;
+	interrupt-parent = <&intc>;
+	interrupts = <20 21 22 23 24 25 26 27>;
 };
