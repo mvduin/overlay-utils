@@ -1,0 +1,13 @@
+// configure am572x pruss1 for uio
+// compatible with kernel series 4.14-ti and 4.19-ti
+
+&pruss_soc_bus1 {
+	status = "okay";
+	compatible = "simple-pm-bus", "ti,am5728-pruss-soc-bus";
+};
+
+&pruss1 {
+	compatible = "ti,pruss-v2";
+	ti,pintc-offset = <0x20000>;
+	pruss-instance = "pruss1";
+};

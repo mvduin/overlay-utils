@@ -9,7 +9,7 @@ CPPFLAGS += -D__DTS__
 CPPFLAGS += -I include -I .
 DTC = dtc
 
-dtsi_files := $(wildcard *.dtsi uio/*.dtsi)
+dtsi_files := $(wildcard *.dtsi uio/*.dtsi am57xx/*.dtsi)
 dtbo_files := ${dtsi_files:%.dtsi=%.dtbo}
 
 all :: ${dtbo_files}

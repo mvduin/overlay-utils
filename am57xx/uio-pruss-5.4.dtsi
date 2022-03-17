@@ -1,0 +1,7 @@
+// configure both pruss instances for uio
+// compatible with kernel series 5.4-ti and 5.10-ti
+//
+// NOTE: libprussdrv can only use the first pruss instance, py-uio can use both.
+
+#include "uio-pruss1-5.4.dtsi"
+#include "uio-pruss2-5.4.dtsi"
