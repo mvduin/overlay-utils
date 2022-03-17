@@ -1,14 +1,1 @@
-// replacement for the AM335X-PRU-UIO-00A0 overlay
-// compatible with kernel series 4.14-ti and 4.19-ti, not with 4.9-ti
-
-&pruss_soc_bus {
-	status = "okay";
-	compatible = "simple-pm-bus", "ti,am3356-pruss-soc-bus";
-	ti,deassert-hard-reset = "pruss", "pruss";
-};
-
-&pruss {
-	status = "okay";
-	compatible = "ti,pruss-v2";
-	ti,pintc-offset = <0x20000>;
-};
+uio-pruss-4.14.dtsi

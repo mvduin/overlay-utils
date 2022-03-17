@@ -1,5 +1,7 @@
-// replacement for the AM335X-PRU-UIO-00A0 overlay
-// compatible with kernel series 5.x-ti, not with 4.x-ti
+// configure am335x pruss for uio
+// compatible with kernel series 5.4-ti and 5.10-ti
+//
+// (equivalent to the AM335X-PRU-UIO-00A0 overlay of those kernel series)
 
 &pruss_tm {
 	status = "okay";

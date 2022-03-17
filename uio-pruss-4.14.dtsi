@@ -1,0 +1,16 @@
+// configure am335x pruss for uio
+// compatible with kernel series 4.14-ti and 4.19-ti only
+//
+// (similar in purpose to AM335X-PRU-UIO-00A0 but implemented differently)
+
+&pruss_soc_bus {
+	status = "okay";
+	compatible = "simple-pm-bus", "ti,am3356-pruss-soc-bus";
+	ti,deassert-hard-reset = "pruss", "pruss";
+};
+
+&pruss {
+	status = "okay";
+	compatible = "ti,pruss-v2";
+	ti,pintc-offset = <0x20000>;
+};
