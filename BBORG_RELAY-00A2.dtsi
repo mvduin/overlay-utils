@@ -1,0 +1,61 @@
+#include "bone/black.h"
+#include "gpio.h"
+
+// NOTE: make sure your kernel version is one of the ones listed here or newer:
+//	https://pastebin.com/2w2XtJBP
+
+// (note that P9.41 and P9.42 connect to two cpu pins each)
+
+USES_PIN( P9_41 );  // gpio 0.20 / relay jp1 (unused)
+USES_PIN( P9_91 );  // gpio 3.20 / relay jp1
+USES_PIN( P9_42 );  // gpio 0.07 / relay jp2 (unused)
+USES_PIN( P9_91 );  // gpio 3.18 / relay jp2
+USES_PIN( P9_30 );  // gpio 3.16 / relay jp3
+USES_PIN( P9_27 );  // gpio 3.19 / relay jp4
+
+USES_GPIO( P9_41 );  // gpio 0.20
+USES_GPIO( P9_42 );  // gpio 0.07
+USES_GPIO( P9_30 );  // gpio 3.16
+USES_GPIO( P9_27 );  // gpio 3.19
+
+/ {
+	relay-cape {
+		compatible = "gpio-of-helper";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&relay_cape_pins>;
+
+		relay-jp1 {
+			gpio = <&gpio3 20 ACTIVE_HIGH>;  // P9_41b
+			init-low;
+		};
+
+		relay-jp2 {
+			gpio = <&gpio3 18 ACTIVE_HIGH>;  // P9_42b
+			init-low;
+		};
+
+		relay-jp3 {
+			gpio = <&gpio3 16 ACTIVE_HIGH>;  // P9_30
+			init-low;
+		};
+
+		relay-jp4 {
+			gpio = <&gpio3 19 ACTIVE_HIGH>;  // P9_27
+			init-low;
+		};
+	};
+};
+
+&am33xx_pinmux {
+	relay_cape_pins: relay-cape {
+		pinctrl-single,pins = <
+			PIN_NOPULL( P9_41a, 7 )  // gpio 0.20 / relay jp1 (unused)
+			PIN_PULLDN( P9_41b, 7 )  // gpio 3.20 / relay jp1
+			PIN_NOPULL( P9_42a, 7 )  // gpio 0.07 / relay jp2 (unused)
+			PIN_PULLDN( P9_42b, 7 )  // gpio 3.18 / relay jp2
+			PIN_PULLDN( P9_30,  7 )  // gpio 3.16 / relay jp3
+			PIN_PULLDN( P9_27,  7 )  // gpio 3.19 / relay jp4
+		>;
+	};
+};
