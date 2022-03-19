@@ -9,14 +9,9 @@
 USES_PIN( P9_41 );  // gpio 0.20 / relay jp1 (unused)
 USES_PIN( P9_91 );  // gpio 3.20 / relay jp1
 USES_PIN( P9_42 );  // gpio 0.07 / relay jp2 (unused)
-USES_PIN( P9_91 );  // gpio 3.18 / relay jp2
+USES_PIN( P9_92 );  // gpio 3.18 / relay jp2
 USES_PIN( P9_30 );  // gpio 3.16 / relay jp3
 USES_PIN( P9_27 );  // gpio 3.19 / relay jp4
-
-USES_GPIO( P9_41 );  // gpio 0.20
-USES_GPIO( P9_42 );  // gpio 0.07
-USES_GPIO( P9_30 );  // gpio 3.16
-USES_GPIO( P9_27 );  // gpio 3.19
 
 / {
 	relay-cape {

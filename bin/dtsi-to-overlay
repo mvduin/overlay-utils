@@ -44,6 +44,8 @@ while( <> ) {
 		next;
 	}
 
+	s/\b__quote_for_cpp_(\w+)/$1/g;  # XXX disgusting hack
+
 	if( $inside ) {
 		unless( /^\s/ ) {
 			/^\};\s*\z/ or fail "Expecting };";
