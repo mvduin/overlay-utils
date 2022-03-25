@@ -1,11 +1,18 @@
 #include "bone/black.h"
 #include "gpio.h"
 
-// XXX not compatible with cape-universal!
+// IMPORTANT: if you have cape-universal enabled (which is the default),
+// make sure your kernel version is one of the ones listed here or newer:
+//	https://pastebin.com/2w2XtJBP
 
-// Requires a sufficiently recent kernel by rcn (4.9-bone or 4.9-ti).
-//
-// A udev rule along these lines is recommended:
+// disable conflicting cape-universal nodes.
+USES_PIN( P8_07 );  // gpio 2.02 / button
+USES_PIN( P8_08 );  // gpio 2.03 / reset-thing
+USES_PIN( P8_09 );  // gpio 2.05 / input-bidi
+USES_PIN( P8_10 );  // gpio 2.04 / output-bidi
+
+
+// A udev rule along these lines is recommended, to create symlinks in /dev/gpio:
 //
 //	SUBSYSTEM=="subsystem", KERNEL=="gpio", ACTION=="add", \
 //		RUN+="/bin/mkdir -p /dev/gpio"
