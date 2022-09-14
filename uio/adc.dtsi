@@ -1,0 +1,15 @@
+#include "uio.h"
+
+&tscadc {
+	// enable module
+	status = "okay";
+
+	// use uio_pdrv_genirq driver, see comments in include/uio.h
+	compatible = UIO_COMPATIBLE;
+
+	// create a symlink to the device at /dev/uio/adc
+	symlink = "uio/adc";
+
+	// ask kernel to keep the module's clocks enabled at all times
+	ti,no-idle;
+};
