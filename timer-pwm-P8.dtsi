@@ -1,0 +1,5 @@
+// enable all four timer pwm outputs on P8
+#include "timer4-pwm-P8_07.dtsi"
+#include "timer7-pwm-P8_08.dtsi"
+#include "timer5-pwm-P8_09.dtsi"
+#include "timer6-pwm-P8_10.dtsi"

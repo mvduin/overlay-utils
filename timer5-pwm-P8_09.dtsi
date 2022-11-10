@@ -1,0 +1,24 @@
+#include "bone/black.h"
+
+// disable conflicting cape-universal nodes
+USES_PIN( P8_09 );  // timer 5
+
+// pinmux for module
+&am33xx_pinmux {
+	timer5_pins: timer5 {
+		pinctrl-single,pins = <
+			PIN_PULLUP( P8_09, 2 )
+		>;
+	};
+};
+
+// create pwm node for timer
+/ {
+	dmtimer-pwm-5 {
+		compatible = "ti,omap-dmtimer-pwm";
+		ti,timers = <&timer5>;
+		#pwm-cells = <3>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&timer5_pins>;	
+	};
+};
