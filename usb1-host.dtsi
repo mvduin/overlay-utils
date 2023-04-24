@@ -1,0 +1,9 @@
+// e.g. for pocketbeagle.  connection info/suggestions:
+// https://pastebin.com/4tMKchp2
+// https://pastebin.com/nJCbVsaA
+// https://photos.app.goo.gl/e1663vMMDnEmGZaR6
+
+&usb1 {
+	status = "okay";
+	dr_mode = "host";
+};
