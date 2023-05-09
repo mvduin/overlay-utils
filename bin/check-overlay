@@ -1,0 +1,38 @@
+#!/usr/bin/perl
+
+use v5.28;
+use warnings qw( FATAL all );
+
+while( @ARGV && $ARGV[0] =~ /^-./s ) {
+	my $opt = shift @ARGV;
+	if( $opt eq '--' ) {
+		last;
+	} elsif( $opt eq '--help' ) {
+		@ARGV = ();
+		last;
+	} else {
+		die "Unknown option: $opt\n";
+	}
+}
+
+@ARGV  or die "Usage: $0 PATH...\n";
+
+for my $path ( @ARGV ) {
+	$path =~ s/^(?=[^.\/\w])/.\//;
+	local $SIG{__DIE__} = sub {  die "$path: ", @_  };
+	open my $fh, '-|', qw( dtc -I dtb -O dts ), $path
+		or die "exec dtc: $!\n";
+	while(<$fh>) {
+		/^\s*__fixups__\b/  or next;
+		/^\t__fixups__ \{$/  or die;
+		last;
+	}
+	while(<$fh>) {
+		last if /^\t\};$/;
+		/^\t\t(\w+) = "/  or die;
+		my $sym = $1;
+		-f "/proc/device-tree/__symbols__/$sym"
+			or die "Symbol \"$sym\" referenced by overlay not found in device tree\n";
+	}
+	close $fh  or die "dtc failed to decompile overlay dtbo\n";
+}
