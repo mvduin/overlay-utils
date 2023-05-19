@@ -20,7 +20,7 @@ while( @ARGV && $ARGV[0] =~ /^-./s ) {
 for my $path ( @ARGV ) {
 	$path =~ s/^(?=[^.\/\w])/.\//;
 	local $SIG{__DIE__} = sub {  die "$path: ", @_  };
-	open my $fh, '-|', qw( dtc -I dtb -O dts ), $path
+	open my $fh, '-|', qw( dtc -I dtb -O dts -q ), $path
 		or die "exec dtc: $!\n";
 	while(<$fh>) {
 		/^\s*__fixups__\b/  or next;
