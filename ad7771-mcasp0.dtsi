@@ -50,7 +50,7 @@ USES_PIN(P9_27);
 	rx-num-evt = <32>;
 };
 
-&pinctrl {
+&am33xx_pinmux {
 	asp0_pins: asp0 {
 		pinctrl-single,pins = <
 			PIN_PULLUP( P9_31,  0 )  // clk
