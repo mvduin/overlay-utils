@@ -1,0 +1,104 @@
+#include "bone/black.h"
+
+// pinout option 1 (conflicts with HDMI audio):
+//
+//	ad7771	mcasp	muxmode	pin
+//	------	-----	-------	---------------
+//	dclk	clk	0	P9_31	
+//	drdy	fs	0	P9_29	
+//	dout0	d0	0	P9_30	
+//	dout1	d1	0	P9_41b	
+//	dout2	d2	2	P9_42b or P9_28
+//	dout3	d3	2	P9_27  or P9_25
+//
+// pinout option 2 (conflicts with HDMI entirely):
+//
+//	ad7771	mcasp	muxmode	pin
+//	------	-----	-------	--------------
+//	dclk	clk	3	P8_37	
+//	drdy	fs	3	P8_38	
+//	dout0	d0	3	P8_36	
+//	dout1	d1	3	P8_31	
+//	dout2	d2	4	P8_34 or P8_35
+//	dout3	d3	4	P8_33 or P8_32
+
+// note: P9.41 and P9.42 both connect to two processor pins each, which
+// cape-universal calls P9_41/42 and P9_91/92 respectively.
+USES_PIN(P9_31);
+USES_PIN(P9_29);
+USES_PIN(P9_30);
+USES_PIN(P9_41);
+USES_PIN(P9_91);
+USES_PIN(P9_42);
+USES_PIN(P9_92);
+USES_PIN(P9_27);
+
+&mcasp0 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&asp0_pins>;
+
+	// data pins (0 = unused, 1 = tx, 2 = rx)
+	serial-dir = <2 2 2 2>;
+
+	// data slots (= channels per pin)
+	tdm-slots = <2>;
+
+	// dma fifo levels
+	tx-num-evt = <32>;
+	rx-num-evt = <32>;
+};
+
+&pinctrl {
+	asp0_pins: asp0 {
+		pinctrl-single,pins = <
+			PIN_PULLUP( P9_31,  0 )  // clk
+			PIN_PULLDN( P9_29,  0 )  // fs
+			PIN_PULLDN( P9_30,  0 )  // d0
+			PIN_PULLDN( P9_41b, 0 )  // d1
+			PIN_PULLDN( P9_42b, 2 )  // d2
+			PIN_PULLDN( P9_27,  2 )  // d3
+
+			PIN_NOPULL( P9_41a, 7 )  // (unused shared pin)
+			PIN_NOPULL( P9_42a, 7 )  // (unused shared pin)
+		>;
+	};
+};
+
+/ {
+	ad7771_dai: ad7771-dai {
+		compatible = "linux,tdm-audio";
+		#sound-dai-cells = <0>;
+
+		capture {
+			input-widget-name = "From AD7771";
+			channels = <8>;
+			rates = <128000>;
+			samplebits = <32>;
+		};
+	};
+
+	ad7771-card {
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "AD7771";
+
+		simple-audio-card,dai-link@0 {
+			format = "dsp_a";
+			bitclock-inversion;
+			frame-master = <&ad7771_tx_master>;
+			bitclock-master = <&ad7771_tx_master>;
+
+			cpu {
+				sound-dai = <&mcasp0>;
+				dai-tdm-slot-width = <32>;
+				dai-tdm-slot-num = <2>;
+			};
+
+			ad7771_tx_master: codec {
+				sound-dai = <&ad7771_dai>;
+				// is any clock spec needed?
+			};
+		};
+	};
+};
