@@ -68,6 +68,8 @@ USES_PIN(P9_27);
 
 / {
 	ad7771_dai: ad7771-dai {
+#if 0
+		// XXX driver is not in rcn's kernel tree
 		compatible = "linux,tdm-audio";
 		#sound-dai-cells = <0>;
 
@@ -77,6 +79,12 @@ USES_PIN(P9_27);
 			rates = <128000>;
 			samplebits = <32>;
 		};
+#else
+		// XXX this codec driver accept basically any format and
+		// configuration, so it's up to userspace to make sure to
+		// select the correct samplerate, format, and number of channels
+		compatible = "linux,spdif-dir";
+#endif
 	};
 
 	ad7771-card {
