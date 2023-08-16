@@ -36,6 +36,8 @@ USES_PIN(P9_27);
 &mcasp0 {
 	status = "okay";
 
+	#sound-dai-cells = <0>;  // XXX this ought to be in the base dts
+
 	pinctrl-names = "default";
 	pinctrl-0 = <&asp0_pins>;
 
@@ -84,6 +86,7 @@ USES_PIN(P9_27);
 		// configuration, so it's up to userspace to make sure to
 		// select the correct samplerate, format, and number of channels
 		compatible = "linux,spdif-dir";
+		#sound-dai-cells = <0>;
 #endif
 	};
 
