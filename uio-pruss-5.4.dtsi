@@ -5,6 +5,14 @@
 
 &pruss_tm {
 	status = "okay";
+
+	// select the 200 MHz core-m4 clock as clock source for the subsystem.
+	// this is the default at cold reset, but it's warm-reset-insensitive
+	// and not touched by u-boot nor by the kernel unless we explicitly ask
+	// it to, so let's select it explicitly just to make sure.
+	assigned-clocks		= <&pruss_ocp_gclk>;
+	assigned-clock-parents	= <&l3_gclk>;
+	assigned-clock-rates	= <0>;
 };
 
 &pruss {
