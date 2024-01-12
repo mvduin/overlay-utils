@@ -1,6 +1,14 @@
 #pragma once
 #include "uio.h"
 
+#if ( KERNEL_MAJOR >= 5 )
+#define PWMSS0_BASE 0x0
+#define PWMSS0_UIO_NODE uio@0
+#else
+#define PWMSS0_BASE 0x48300000
+#define PWMSS0_UIO_NODE uio@48300000
+#endif
+
 // make sure subsystem is enabled and make it usable for uio
 &epwmss0 {
 	status = "okay";
@@ -9,13 +17,13 @@
 	ti,no-idle;
 
 	// make sure the entire subsystem's range is mapped
-	ranges = <0x48300000 0x48300000 0x1000>;
+	ranges = <PWMSS0_BASE PWMSS0_BASE 0x1000>;
 
 	// the entire subsystem's registers is a single 4K page so we make a
 	// uio device for that.  the submodule uio devices are mainly for the
 	// irq (with the declared register ranges just being informative).
-	uio@48300000 {
-		reg = <0x48300000 0x1000>;
+	PWMSS0_UIO_NODE {
+		reg = <PWMSS0_BASE 0x1000>;
 
 		compatible = UIO_COMPATIBLE;
 		symlink = "uio/pwmss0/module";

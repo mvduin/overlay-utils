@@ -46,3 +46,6 @@ These are concrete examples for the BeagleBone Black that include pinmux:
   - uio/ehrpwm0-P9_22-P9_21.dtsi   // P9.22 = pwm 0 out A,  P9.21 = pwm 0 out B
   - uio/ehrpwm1-P9_14-P9_16.dtsi   // P9.14 = pwm 1 out A,  P9.16 = pwm 1 out B
   - uio/ehrpwm2-P8_19-P8_13.dtsi   // P8.19 = pwm 2 out A,  P8.13 = pwm 2 out B
+
+Beware that kernel 5.0 introduced incompatible changes, so be sure to define
+KERNEL_MAJOR correctly in config.mk or when invoking make.

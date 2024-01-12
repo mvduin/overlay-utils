@@ -5,7 +5,8 @@
 	status = "okay";
 
 	// main DT neglects the HR registers
-	reg = <0x48300200 0x80>, <0x48300280 0x80>;
+	reg = <(PWMSS0_BASE+0x200) 0x80>,
+	      <(PWMSS0_BASE+0x280) 0x80>;
 	reg-names = "pwm", "hr";
 
 	// interrupt declaration missing in main DT
