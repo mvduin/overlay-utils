@@ -1,0 +1,26 @@
+#include "uio.h"
+
+// L3 interconnect service network
+//
+// Useful for diagnostics.
+//
+// Do note that it only supports aligned single-word (32-bit) transfers. Any
+// other read/write will result in a bus fault.
+
+&ocp {
+	l3_sn: sn@44000000 {
+		reg = <0x44000000 0x6000>,
+	      	      <0x44800000 0x5000>;
+		reg-names = "l3f", "l3s";
+
+		// irq used for reporting interconnect errors
+		interrupt-parent = <&intc>;
+		interrupts = <10>;
+
+		// use uio_pdrv_genirq driver, see comments in include/uio.h
+		compatible = UIO_COMPATIBLE;
+
+		// create a symlink to the device at /dev/uio/l3-sn
+		symlink = "uio/l3-sn";
+	};
+};
